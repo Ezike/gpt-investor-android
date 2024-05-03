@@ -4,7 +4,8 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    alias(libs.plugins.kotlinKapt)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.hiltAndroid)
     alias(libs.plugins.ktLint)
     alias(libs.plugins.googleServices)
@@ -32,14 +33,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
-        }
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += mapOf(
-                    "room.schemaLocation" to "$projectDir/schemas"
-                )
-            }
         }
     }
 
@@ -89,18 +82,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
         buildConfig = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
     }
     packaging {
         resources {
@@ -109,7 +99,9 @@ android {
     }
 }
 
-tasks.getByPath("preBuild").dependsOn("ktlintFormat")
+composeCompiler {
+    enableStrongSkippingMode = true
+}
 
 ktlint {
     android = true
@@ -129,7 +121,6 @@ ktlint {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -146,10 +137,14 @@ dependencies {
     implementation(libs.moshi.converter)
     implementation(libs.okhttp.logger)
     implementation(libs.coil.compose)
-    kapt(libs.dagger.hilt.compiler)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    ksp(libs.dagger.hilt.compiler)
     implementation(libs.androidx.room)
     implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.moshi)
+    implementation(libs.kotlin.immutable.collections)
+    ksp(libs.moshi.codeGen)
     implementation(libs.timeAgo)
     implementation(libs.jsoup)
     implementation(libs.gemini)
