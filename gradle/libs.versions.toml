@@ -3,9 +3,9 @@ agp = "8.3.2"
 kotlin = "2.0.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
-lifecycleRuntimeKtx = "2.8.1"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+lifecycleRuntimeKtx = "2.8.3"
 activityCompose = "1.9.0"
 composeBom = "2024.05.00"
 hilt = "2.51"
@@ -19,7 +19,7 @@ coil = "2.5.0"
 room = "2.6.1"
 timeAgo = "4.0.3"
 jsoup = "1.17.2"
-gemini = "0.8.0"
+gemini = "0.9.0"
 richText = "1.0.0-alpha01"
 googleServices = "4.4.2"
 firebaseBom = "33.1.0"
@@ -27,10 +27,11 @@ crashlytics = "3.0.1"
 truth = "1.4.2"
 mockk = "1.13.9"
 coroutineTest = "1.8.0-RC2"
-coreKtxVersion = "1.5.0"
-junitKtx = "1.1.5"
+coreKtxVersion = "1.6.1"
+junitKtx = "1.2.1"
 moshi = "1.15.1"
 ksp = "2.0.0-1.0.21"
+kotlinImmutableCollections = "0.3.7"
 
 
 [libraries]
@@ -39,6 +40,7 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
@@ -58,6 +60,7 @@ moshi-converter = { group = "com.squareup.retrofit2", name = "converter-moshi", 
 moshi-codeGen = { group = "com.squareup.moshi", name = "moshi-kotlin-codegen", version.ref = "moshi" }
 moshi = { group = "com.squareup.moshi", name = "moshi", version.ref = "moshi" }
 okhttp-logger = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+kotlin-immutable-collections = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinImmutableCollections" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 androidx-room = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
@@ -66,7 +69,7 @@ timeAgo = { group = "com.github.marlonlom", name = "timeago", version.ref = "tim
 jsoup = { group = "org.jsoup", name = "jsoup", version.ref = "jsoup" }
 gemini = { group = "com.google.ai.client.generativeai", name = "generativeai", version.ref = "gemini" }
 richtext-compose = { group = "com.halilibo.compose-richtext", name = "richtext-ui-material3", version.ref = "richText" }
-richtext-commonmark = {group = "com.halilibo.compose-richtext", name = "richtext-commonmark", version.ref = "richText"}
+richtext-commonmark = { group = "com.halilibo.compose-richtext", name = "richtext-commonmark", version.ref = "richText" }
 firebase-compose-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-analaytics = { group = "com.google.firebase", name = "firebase-analytics" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }

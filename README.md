@@ -7,40 +7,39 @@ GPT Investor is an AI-powered mobile application that generates investment insig
 
 The application consumes data from [yfinance](https://github.com/ranaroussi/yfinance)
 
-## Table of Contents
+## Installation
+**Requirements**
+- Android studio Koala 
+- Gradle 8.6
+- Kotlin 2.0
+- AGP 8.3.2
 
-- [Architecture](#architecture)
-- [Libraries](#libraries)
-- [Process](#process)
-- [Testing](#testing)
-- [Organisation](#organisation)
-- [Extras](#extras)
-- [Demo](#demo)
-- [Disclaimer](#disclaimer)
+**Setup**
+- Get a free Gemini API key at [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
+- Get access token at [http://gpt-investor-api.onrender.com/get-token](http://gpt-investor-api.onrender.com/get-token)
+- Create a project on firebase and add the `google-services.json` file in the app folder. See [here](https://firebase.google.com/docs/android/setup) for further instructions.
+- Clone the repo
+   ```sh
+   git clone https://github.com/jawnpaul/gpt-investor-android.git
+   ```
+- Enter your keys in `local.properties`
+   ```sh
+   GEMINI_API_KEY=<Enter your GEMINI API KEY>
+   GEMINI_DEBUG_KEY=<Enter your GEMINI API KEY>
+   BASE_URL=https://gpt-investor-api.onrender.com/api/v1/
+   ACCESS_TOKEN=<Enter your access token>
+    ```
+- Create a `keystore.properties` file and add the following.
+  ```sh
+  KEY_ALIAS=***
+  KEY_PASSWORD=***
+  KEY_STORE_PASSWORD=***
+  STORE_FILE=/user/...
+  ```
+**N.B**: Replace the values in the `keystore.properties` file with the correct values if you plan to release on Google playstore. Further instructions can be found [here](https://developer.android.com/studio/publish/app-signing)
 
 ## Architecture
-
-
-The Application is split into a three layer architecture:
-
-- Data
-- Domain
-- Presentation
-
-#### Data
-
-The data layer handles the business logic and provides data from the API and Gemini. This layer uses the Repository pattern to fetch data from various data sources - sometimes this is calling the API to get data about specific companies, other times it is using gemini to provide information.
-
-#### Domain
-
-The domain layer contains the application specifics logic. It contains use cases that expose the actions that can be performed in the application.
-
-The UseCases use a ```BaseUseCase``` interface that defines the parameters its taking in and output and also handles running the UseCases in a background thread leveraging Kotlin Coroutines.
-
-
-#### Presentation
-
-I used the MVVM pattern for the presentation layer. The Model essentially exposes the various states the view can be in. The ViewModel handles the UI logic and provides data via StateFlow to the view. The ViewModel talks to the domain layer with the individual use cases. Jetpack Compose is used to create the UI.
+<img width="949" alt="Screenshot 2024-05-06 at 01 12 21" src="https://github.com/Ezike/gpt-investor-android/assets/17779130/7ca5a3a9-93ab-4820-b35b-ea40b89b1019">
 
 ## Libraries
 
@@ -68,68 +67,7 @@ and default parameters.
 - [Hilt](https://github.com/InsertKoinIO/koin) - Dependency injection plays a central role in the architectural pattern used.
 For this reason I have chosen Hilt which is built on top of the battle tested DI framework - Dagger 2.
 
-## Process
-
-In general, any particular flow can be said to follow the steps below:
-- The view sends an action to the ViewModel
-- The ViewModel reaches out to the UseCase
-- The UseCase via an abstraction layer reaches out to the repository
-- The repository decides where to get the data from and returns (mapped to domain representation) either a success or a failure via a Sealed Either class.
-- The UseCase gets the returned value and hand it over to the ViewModel
-- The ViewModel maps the returned value to the presentation object.
-- Finally, the ViewModel creates a view to model the state of the view then hands it over the composable.
-
-
-## Testing
-
-The different layer has various test cases.
-
-The data layer has tests for the repository. To test the repository, test doubles were provided for the API service.
-
-The UseCases were also tested by ensuring the UseCases called the right repository methods.
-
-The presentation layer also has unit tests for the viewmodels.
-
-## Organisation
-I decided to organize my code based on features. Since many developers are expected to work on the project, developers can easily spot the folder to work on based on feature. This can also potentially reduce merge conflicts. It also makes it easy for new developers to come on board and if we want, we can easily have developers dedicated to different features of the application.
-
-## Extras
-The project uses ktlint to enforce proper code style. Github actions handles continous integration, and runs ktlint and unit tests.
-
-
-## Installation
-
-Minimum Api Level: 24
-
-compileSdkVersion: 34
-
-Build System: [Gradle](https://gradle.org/)
-
-1. Get a free Gemini API key at [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
-2. Get access token at [http://gpt-investor-api.onrender.com/get-token](http://gpt-investor-api.onrender.com/get-token)
-3. Create a project on firebase and add the `google-services.json` file in the app folder. See [here](https://firebase.google.com/docs/android/setup) for further instructions.
-4. Clone the repo
-   ```sh
-   git clone https://github.com/jawnpaul/gpt-investor-android.git
-   ```
-5. Enter your keys in `local.properties`
-   ```sh
-   GEMINI_API_KEY=<Enter your GEMINI API KEY>
-   GEMINI_DEBUG_KEY=<Enter your GEMINI API KEY>
-   BASE_URL=https://gpt-investor-api.onrender.com/api/v1/
-   ACCESS_TOKEN=<Enter your access token>
-    ```
-6. Create a `keystore.properties` file and add the following.
-    ```sh
-   KEY_ALIAS=abcd
-   KEY_PASSWORD=abcd
-   KEY_STORE_PASSWORD=abcd
-   STORE_FILE=/user/abcd/
-    ```
-    **N.B**: Replace the values in the `keystore.properties` file with the correct values if you plan to release on Google playstore. Further instructions can be found [here](https://developer.android.com/studio/publish/app-signing)   
-
 ## Demo
-We're waiting for the app to be published on Google playstore but while waiting you can:
 1. Join internal test [here](https://docs.google.com/forms/d/e/1FAIpQLSegV83xaYvknPPQhv4QKpViYeFSAhff3CvlsrPY-YZ_c_eX_g/viewform?usp=sf_link)
 2. Download apk directly [here](https://drive.google.com/file/d/1r1tWwWXEBNbqPEEG4y2YiaRov7P7TIez/view?usp=drive_link)
 

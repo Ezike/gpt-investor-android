@@ -34,14 +34,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += mapOf(
-                    "room.schemaLocation" to "$projectDir/schemas"
-                )
-            }
-        }
     }
 
     signingConfigs {
@@ -90,18 +82,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
         buildConfig = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
     }
     packaging {
         resources {
@@ -110,7 +99,9 @@ android {
     }
 }
 
-tasks.getByPath("preBuild").dependsOn("ktlintFormat")
+composeCompiler {
+    enableStrongSkippingMode = true
+}
 
 ktlint {
     android = true
@@ -130,7 +121,6 @@ ktlint {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -148,7 +138,7 @@ dependencies {
     implementation(libs.okhttp.logger)
     implementation(libs.coil.compose)
     implementation(libs.core.ktx)
-    implementation(libs.androidx.junit.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
     ksp(libs.dagger.hilt.compiler)
     implementation(libs.androidx.room)
     implementation(libs.androidx.room.ktx)
@@ -163,6 +153,7 @@ dependencies {
     implementation(platform(libs.firebase.compose.bom))
     implementation(libs.firebase.analaytics)
     implementation(libs.firebase.crashlytics)
+    implementation(libs.kotlin.immutable.collections)
 
     // test
     testImplementation(libs.junit)
@@ -172,6 +163,7 @@ dependencies {
     testImplementation(libs.coroutine.test)
 
     androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.junit.ktx)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
