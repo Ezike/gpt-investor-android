@@ -3,7 +3,7 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.kotlin)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hiltAndroid)
@@ -29,13 +29,11 @@ android {
         targetSdk = 34
         versionCode = 2
         versionName = "1.0.1"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
     }
-
+    testOptions.unitTests.isIncludeAndroidResources = true
     signingConfigs {
         create("release") {
             keyAlias = keystoreProperties.getProperty("KEY_ALIAS") ?: ""
@@ -154,7 +152,14 @@ dependencies {
     implementation(libs.firebase.analaytics)
     implementation(libs.firebase.crashlytics)
 
+    kspTest(libs.dagger.hilt.compiler)
+    testImplementation(libs.androidx.lifecycle.testing)
+    testImplementation(libs.androidx.compose.test)
+    testImplementation(libs.androidx.runner)
+    testImplementation(libs.truth)
     testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.dagger.hilt.testing)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
