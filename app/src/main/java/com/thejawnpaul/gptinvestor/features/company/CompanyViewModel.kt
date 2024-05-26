@@ -101,7 +101,6 @@ class CompanyViewModel @Inject constructor(
                 historicalData = it.historicalData,
                 balanceSheet = it.balanceSheet,
                 financials = it.financials,
-                news = it.news
             )
             _similarCompanies.update { view ->
                 view.copy(loading = true)
@@ -229,10 +228,6 @@ class CompanyViewModel @Inject constructor(
 
     fun selectTab(tabIndex: Int) {
         _selectedTab.update { tabIndex }
-    }
-
-    private fun getCompanyFinancials(ticker: String) {
-
     }
 
     private fun resetCompanyComparison() {

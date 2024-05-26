@@ -15,13 +15,13 @@ class HomePage : Page {
     override fun Content(pageContext: PageContext) {
         val homeViewModel = hiltViewModel<HomeViewModel>()
         HomeScreen(
+            homeViewModel = homeViewModel,
             onCompanyClick = { ticker ->
                 pageContext.navigator.navigate(
                     route = Route.CompanyDetail,
                     arg = ticker,
                 )
             },
-            homeViewModel = homeViewModel,
         )
     }
 }

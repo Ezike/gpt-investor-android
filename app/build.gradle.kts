@@ -27,15 +27,13 @@ android {
         applicationId = "com.thejawnpaul.gptinvestor"
         minSdk = 24
         targetSdk = 34
-        versionCode = 3
-        versionName = "1.0.2"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        versionCode = 2
+        versionName = "1.0.1"
         vectorDrawables {
             useSupportLibrary = true
         }
     }
-
+    testOptions.unitTests.isIncludeAndroidResources = true
     signingConfigs {
         create("release") {
             keyAlias = keystoreProperties.getProperty("KEY_ALIAS") ?: ""
@@ -155,13 +153,14 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.kotlin.immutable.collections)
 
-    // test
+    kspTest(libs.dagger.hilt.compiler)
+    testImplementation(libs.androidx.lifecycle.testing)
+    testImplementation(libs.androidx.compose.test)
+    testImplementation(libs.androidx.runner)
+    testImplementation(libs.truth)
     testImplementation(libs.junit)
-    testImplementation(libs.google.truth)
-    testImplementation(libs.okhttp.mockwebserver)
-    testImplementation(libs.mockk)
-    testImplementation(libs.coroutine.test)
-
+    testImplementation(libs.robolectric)
+    testImplementation(libs.dagger.hilt.testing)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.junit.ktx)
     androidTestImplementation(libs.androidx.espresso.core)

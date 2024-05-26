@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -24,14 +25,17 @@ import com.thejawnpaul.gptinvestor.R
 import com.thejawnpaul.gptinvestor.features.company.model.Company
 
 @Composable
-fun SingleCompanyItem(modifier: Modifier, company: Company, onClick: (String) -> Unit) {
+fun SingleCompanyItem(
+    modifier: Modifier,
+    company: Company,
+    onClick: (String) -> Unit
+) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(56.dp)
-            .clickable {
-                onClick(company.ticker)
-            }
+            .clickable { onClick(company.ticker) }
+            .testTag("CompanyItem")
     ) {
         AsyncImage(
             model = company.logo,
