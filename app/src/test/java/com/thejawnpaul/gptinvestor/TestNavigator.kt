@@ -1,5 +1,8 @@
 package com.thejawnpaul.gptinvestor
 
+import android.content.Context
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavDestination
 import com.thejawnpaul.gptinvestor.navigation.Navigator
 import com.thejawnpaul.gptinvestor.navigation.Route
 
@@ -17,6 +20,8 @@ class FakeNavigator : Navigator, TestNavigator {
     override var destination: Route? = null
     override var navArg: String? = null
 
+    var context: Context? = null
+
     override fun navigateUp() {
         navigateUpCalled = true
     }
@@ -26,4 +31,11 @@ class FakeNavigator : Navigator, TestNavigator {
         destination = route
         navArg = arg
     }
+
+    override fun getBackstackEntry(route: Route): NavBackStackEntry =
+        NavBackStackEntry.create(
+            context = context,
+            destination = NavDestination("test_navigator")
+                .apply { this.route = route.value }
+        )
 }

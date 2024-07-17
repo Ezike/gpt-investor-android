@@ -2,7 +2,6 @@ package com.thejawnpaul.gptinvestor
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavHostController
@@ -11,12 +10,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.thejawnpaul.gptinvestor.navigation.AppNavigator
-import com.thejawnpaul.gptinvestor.navigation.NavAction
-import com.thejawnpaul.gptinvestor.navigation.Navigator
 import com.thejawnpaul.gptinvestor.navigation.PageContext
 import com.thejawnpaul.gptinvestor.navigation.Route
 import com.thejawnpaul.gptinvestor.navigation.argKey
-import com.thejawnpaul.gptinvestor.navigation.withArg
 
 class PageHolder(
     private val navigator: AppNavigator,
@@ -48,16 +44,6 @@ class PageHolder(
                     ) {
                         page.Content(pageContext)
                     }
-                }
-            }
-        }
-        LaunchedEffect(navigator, navHostController) {
-            navigator.navStackFlow.collect { navAction ->
-                when (navAction) {
-                    NavAction.NavigateUp -> navHostController.navigateUp()
-                    is NavAction.ToRoute -> navHostController.navigate(
-                        navAction.route.withArg(navAction.arg)
-                    )
                 }
             }
         }

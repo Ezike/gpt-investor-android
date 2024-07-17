@@ -21,6 +21,7 @@ google-services.json
 # Built application files
 *.apk
 *.ap_
+/.idea
 
 # Files for the ART/Dalvik VM
 *.dex
@@ -34,7 +35,6 @@ gen/
 out/
 
 # Gradle files
-/.idea
 .gradle/
 build/
 

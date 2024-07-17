@@ -22,8 +22,3 @@ private class Impl(override val value: String) : Route
 
 val Route.argKey: String?
     get() = (this as? Route.WithArg)?.key
-
-fun Route.withArg(arg: String?): String {
-    if (this !is Route.WithArg || arg == null) return value
-    return value.replaceAfter("/", arg)
-}

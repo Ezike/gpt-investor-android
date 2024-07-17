@@ -1,5 +1,6 @@
 package com.thejawnpaul.gptinvestor
 
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import com.thejawnpaul.gptinvestor.navigation.Page
 import com.thejawnpaul.gptinvestor.navigation.PageContext
@@ -56,12 +57,14 @@ class PageTestSpecThenImpl(
     private val composeTestRule: ComposeContentTestRule,
 ) {
     fun then(thenScope: PageTestSpecThenScope.() -> Unit) {
-        val thenScopeImpl = ThenScopeImpl(sut)
+        val navigator = FakeNavigator()
+        val thenScopeImpl = ThenScopeImpl(sut, navigator)
         composeTestRule.setContent {
+            navigator.context = LocalContext.current
             sut.Content(
                 pageContext = PageContext(
                     navArgs = arg?.toString(),
-                    navigator = thenScopeImpl.navigator
+                    navigator = navigator,
                 ),
             )
         }
@@ -71,7 +74,7 @@ class PageTestSpecThenImpl(
 
     private inner class ThenScopeImpl(
         private val sut: Page,
-        val navigator: FakeNavigator = FakeNavigator(),
+        private val navigator: FakeNavigator,
     ) : PageTestSpecThenScope, TestNavigator by navigator {
         override val route: Route get() = sut.route
     }
