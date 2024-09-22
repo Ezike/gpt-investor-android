@@ -8,11 +8,8 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface CompanyService {
-    @GET("companies")
-    suspend fun getCompanies(): List<CompanyRemote>
+  @GET("companies") suspend fun getCompanies(): List<CompanyRemote>
 
-    @POST("company")
-    suspend fun getCompanyFinancials(
-        @Body request: CompanyFinancialsRequest
-    ): CompanyFinancialsRemote
+  @POST("company")
+  suspend fun getCompanyFinancials(@Body request: CompanyFinancialsRequest): CompanyFinancialsRemote
 }

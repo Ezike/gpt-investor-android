@@ -11,15 +11,13 @@ import retrofit2.Retrofit
 @[Module InstallIn(ActivityRetainedComponent::class)]
 interface CompanyModule {
 
-    @Binds
-    fun bindRepo(repo: CompanyRepositoryImpl): CompanyRepository
+  @Binds fun bindRepo(repo: CompanyRepositoryImpl): CompanyRepository
 
-    companion object {
-        @Provides
-        fun provideCompanyService(retrofit: Retrofit): CompanyService =
-            retrofit.create(CompanyService::class.java)
+  companion object {
+    @Provides
+    fun provideCompanyService(retrofit: Retrofit): CompanyService =
+      retrofit.create(CompanyService::class.java)
 
-        @Provides
-        fun providesCompanyDao(db: GPTInvestorDatabase) = db.companyDao()
-    }
+    @Provides fun providesCompanyDao(db: GPTInvestorDatabase) = db.companyDao()
+  }
 }

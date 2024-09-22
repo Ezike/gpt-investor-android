@@ -11,22 +11,16 @@ import com.thejawnpaul.gptinvestor.features.company.CompanyViewModel
 
 @Composable
 fun CompanyNewsScreen(
-    modifier: Modifier,
-    onNewsClick: (String) -> Unit,
-    viewModel: CompanyViewModel
+  modifier: Modifier,
+  onNewsClick: (String) -> Unit,
+  viewModel: CompanyViewModel,
 ) {
-    val financials by viewModel.companyFinancials.collectAsStateWithLifecycle()
-    Column(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 16.dp)
-    ) {
-        financials.info?.let { info ->
-            info.news.forEach { news ->
-                SingleNewsItem(
-                    modifier = Modifier,
-                    newsInfo = news,
-                    onClick = onNewsClick
-                )
-            }
-        }
+  val financials by viewModel.companyFinancials.collectAsStateWithLifecycle()
+  Column(modifier = Modifier.padding(horizontal = 8.dp, vertical = 16.dp)) {
+    financials.info?.let { info ->
+      info.news.forEach { news ->
+        SingleNewsItem(modifier = Modifier, newsInfo = news, onClick = onNewsClick)
+      }
     }
+  }
 }

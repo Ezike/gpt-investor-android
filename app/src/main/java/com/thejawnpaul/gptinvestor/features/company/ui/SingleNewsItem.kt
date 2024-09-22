@@ -19,49 +19,39 @@ import coil.compose.AsyncImage
 import com.thejawnpaul.gptinvestor.features.company.model.NewsInfo
 
 @Composable
-fun SingleNewsItem(
-    modifier: Modifier,
-    newsInfo: NewsInfo,
-    onClick: (String) -> Unit
-) {
-    ElevatedCard(
-        modifier = Modifier.padding(16.dp),
-        onClick = { onClick(newsInfo.dummyLink) }
+fun SingleNewsItem(modifier: Modifier, newsInfo: NewsInfo, onClick: (String) -> Unit) {
+  ElevatedCard(modifier = Modifier.padding(16.dp), onClick = { onClick(newsInfo.dummyLink) }) {
+    Surface(
+      modifier =
+        Modifier.fillMaxWidth()
+          .height(220.dp)
+          .padding(bottom = 16.dp, start = 8.dp, end = 8.dp, top = 16.dp),
+      shape = RoundedCornerShape(corner = CornerSize(8.dp)),
     ) {
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(220.dp)
-                .padding(bottom = 16.dp, start = 8.dp, end = 8.dp, top = 16.dp),
-            shape = RoundedCornerShape(corner = CornerSize(8.dp))
-        ) {
-            AsyncImage(
-                model = newsInfo.imageUrl,
-                contentDescription = "News Image",
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.FillBounds
-            )
-        }
-        Text(
-            modifier = Modifier.padding(horizontal = 8.dp),
-            text = newsInfo.title,
-            style = MaterialTheme.typography.headlineSmall
-        )
-        Row(modifier = Modifier.padding(start = 8.dp, bottom = 8.dp, top = 16.dp)) {
-            Text(
-                text = newsInfo.publisher,
-                modifier = Modifier.padding(end = 4.dp)
-            )
-            Text(
-                text = "-",
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(top = 2.dp, end = 2.dp)
-            )
-            Text(
-                text = newsInfo.relativeDate,
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(top = 2.dp)
-            )
-        }
+      AsyncImage(
+        model = newsInfo.imageUrl,
+        contentDescription = "News Image",
+        modifier = Modifier.fillMaxSize(),
+        contentScale = ContentScale.FillBounds,
+      )
     }
+    Text(
+      modifier = Modifier.padding(horizontal = 8.dp),
+      text = newsInfo.title,
+      style = MaterialTheme.typography.headlineSmall,
+    )
+    Row(modifier = Modifier.padding(start = 8.dp, bottom = 8.dp, top = 16.dp)) {
+      Text(text = newsInfo.publisher, modifier = Modifier.padding(end = 4.dp))
+      Text(
+        text = "-",
+        style = MaterialTheme.typography.bodyMedium,
+        modifier = Modifier.padding(top = 2.dp, end = 2.dp),
+      )
+      Text(
+        text = newsInfo.relativeDate,
+        style = MaterialTheme.typography.bodyMedium,
+        modifier = Modifier.padding(top = 2.dp),
+      )
+    }
+  }
 }

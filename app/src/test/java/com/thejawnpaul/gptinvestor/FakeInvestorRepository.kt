@@ -10,27 +10,21 @@ import com.thejawnpaul.gptinvestor.features.home.model.request.SimilarCompanyReq
 
 class FakeInvestorRepository : InvestorRepository {
 
-    override suspend fun getSimilarCompanies(request: SimilarCompanyRequest): SimilarCompanies =
-        SimilarCompanies(
-            codeText = request.ticker,
-            companies = listOf("AMZN", "AAPL", "MSFT")
-        )
+  override suspend fun getSimilarCompanies(request: SimilarCompanyRequest): SimilarCompanies =
+    SimilarCompanies(codeText = request.ticker, companies = listOf("AMZN", "AAPL", "MSFT"))
 
-    override suspend fun compareCompany(request: CompareCompaniesRequest): String =
-        "${request.currentCompanyTicker}-${request.otherCompanyTicker} comparison"
+  override suspend fun compareCompany(request: CompareCompaniesRequest): String =
+    "${request.currentCompanyTicker}-${request.otherCompanyTicker} comparison"
 
-    override suspend fun getSentimentAnalysis(request: SentimentAnalysisRequest): String =
-        "${request.ticker} analysis"
+  override suspend fun getSentimentAnalysis(request: SentimentAnalysisRequest): String =
+    "${request.ticker} analysis"
 
-    override suspend fun getAnalystRating(ticker: String): String =
-        "$ticker rating"
+  override suspend fun getAnalystRating(ticker: String): String = "$ticker rating"
 
-    override suspend fun getIndustryAnalysis(ticker: String): String =
-        "$ticker analysis"
+  override suspend fun getIndustryAnalysis(ticker: String): String = "$ticker analysis"
 
-    override suspend fun getFinalAnalysis(request: FinalAnalysisRequest): String =
-        "${request.ticker} analysis"
+  override suspend fun getFinalAnalysis(request: FinalAnalysisRequest): String =
+    "${request.ticker} analysis"
 
-    override suspend fun downloadAnalysisPdf(request: GetPdfRequest): String =
-        "${request.ticker} pdf"
+  override suspend fun downloadAnalysisPdf(request: GetPdfRequest): String = "${request.ticker} pdf"
 }

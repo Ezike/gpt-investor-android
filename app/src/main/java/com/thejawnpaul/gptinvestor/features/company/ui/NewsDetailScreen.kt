@@ -24,47 +24,39 @@ import com.thejawnpaul.gptinvestor.R
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun NewsDetailScreen(
-    url: String,
-    onNavigationBtnClick: () -> Unit,
-) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary
-                ),
-                title = {
-                    Text(
-                        text = "",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { onNavigationBtnClick() }) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.back)
-                        )
-                    }
-                }
+fun NewsDetailScreen(url: String, onNavigationBtnClick: () -> Unit) {
+  Scaffold(
+    topBar = {
+      TopAppBar(
+        colors =
+          TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.primary,
+          ),
+        title = { Text(text = "", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+        navigationIcon = {
+          IconButton(onClick = { onNavigationBtnClick() }) {
+            Icon(
+              imageVector = Icons.Filled.ArrowBack,
+              contentDescription = stringResource(id = R.string.back),
             )
-        }
-    ) { innerPadding ->
-        AndroidView(
-            modifier = Modifier.padding(innerPadding),
-            factory = { context ->
-                WebView(context).apply {
-                    settings.javaScriptEnabled = true
-                    webViewClient = WebViewClient()
-                    settings.loadWithOverviewMode = true
-                    settings.useWideViewPort = true
-                    settings.setSupportZoom(true)
-                }
-            },
-            update = { webView -> webView.loadUrl(url.replace("|", "/")) }
-        )
+          }
+        },
+      )
     }
+  ) { innerPadding ->
+    AndroidView(
+      modifier = Modifier.padding(innerPadding),
+      factory = { context ->
+        WebView(context).apply {
+          settings.javaScriptEnabled = true
+          webViewClient = WebViewClient()
+          settings.loadWithOverviewMode = true
+          settings.useWideViewPort = true
+          settings.setSupportZoom(true)
+        }
+      },
+      update = { webView -> webView.loadUrl(url.replace("|", "/")) },
+    )
+  }
 }

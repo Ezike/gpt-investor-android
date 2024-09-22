@@ -26,80 +26,83 @@ import com.thejawnpaul.gptinvestor.theme.GPTInvestorTheme
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SectorChoiceQuestion(
-    possibleAnswers: List<SectorInput>,
-    selectedAnswer: SectorInput?,
-    onOptionSelected: (SectorInput) -> Unit,
-    modifier: Modifier = Modifier
+  possibleAnswers: List<SectorInput>,
+  selectedAnswer: SectorInput?,
+  onOptionSelected: (SectorInput) -> Unit,
+  modifier: Modifier = Modifier,
 ) {
-    FlowRow(
-        modifier = modifier
-    ) {
-        possibleAnswers.forEach {
-            val selected = it == selectedAnswer
-            SingleSectorChoice(
-                modifier = Modifier.padding(horizontal = 4.dp),
-                input = it,
-                selected = selected,
-                onOptionSelected = { onOptionSelected(it) }
-            )
-        }
+  FlowRow(modifier = modifier) {
+    possibleAnswers.forEach {
+      val selected = it == selectedAnswer
+      SingleSectorChoice(
+        modifier = Modifier.padding(horizontal = 4.dp),
+        input = it,
+        selected = selected,
+        onOptionSelected = { onOptionSelected(it) },
+      )
     }
+  }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SingleSectorChoice(input: SectorInput, selected: Boolean, onOptionSelected: () -> Unit, modifier: Modifier = Modifier) {
-    Surface(
-        color = if (selected) {
-            MaterialTheme.colorScheme.background
-        } else {
-            MaterialTheme.colorScheme.surface
-        },
-        modifier = modifier
-            .clip(MaterialTheme.shapes.small)
-            .selectable(
-                selected,
-                onClick = onOptionSelected,
-                role = Role.RadioButton
-            )
+fun SingleSectorChoice(
+  input: SectorInput,
+  selected: Boolean,
+  onOptionSelected: () -> Unit,
+  modifier: Modifier = Modifier,
+) {
+  Surface(
+    color =
+      if (selected) {
+        MaterialTheme.colorScheme.background
+      } else {
+        MaterialTheme.colorScheme.surface
+      },
+    modifier =
+      modifier
+        .clip(MaterialTheme.shapes.small)
+        .selectable(selected, onClick = onOptionSelected, role = Role.RadioButton),
+  ) {
+    when (input) {
+      is SectorInput.AllSector -> {
+        // Text(text = "All")
+        FilterChip(selected = selected, onClick = onOptionSelected, label = { Text(text = "All") })
+      }
 
-    ) {
-        when (input) {
-            is SectorInput.AllSector -> {
-                // Text(text = "All")
-                FilterChip(selected = selected, onClick = onOptionSelected, label = { Text(text = "All") })
-            }
-
-            is SectorInput.CustomSector -> {
-                // Text(text = input.sectorName)
-                FilterChip(selected = selected, onClick = onOptionSelected, label = { Text(text = input.sectorName) })
-            }
-        }
+      is SectorInput.CustomSector -> {
+        // Text(text = input.sectorName)
+        FilterChip(
+          selected = selected,
+          onClick = onOptionSelected,
+          label = { Text(text = input.sectorName) },
+        )
+      }
     }
+  }
 }
 
 @Preview
 @Composable
 fun SectorPreview() {
-    GPTInvestorTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            var selectedAnswer by remember { mutableStateOf<SectorInput?>(null) }
-            val possibleAnswers = listOf(
-                SectorInput.AllSector,
-                SectorInput.CustomSector("Technology", ""),
-                SectorInput.CustomSector("Manufacturing", ""),
-                SectorInput.CustomSector("Sports", ""),
-                SectorInput.CustomSector("Security", ""),
-                SectorInput.CustomSector("Fashion", "")
-            )
+  GPTInvestorTheme {
+    Surface(modifier = Modifier.fillMaxSize()) {
+      var selectedAnswer by remember { mutableStateOf<SectorInput?>(null) }
+      val possibleAnswers =
+        listOf(
+          SectorInput.AllSector,
+          SectorInput.CustomSector("Technology", ""),
+          SectorInput.CustomSector("Manufacturing", ""),
+          SectorInput.CustomSector("Sports", ""),
+          SectorInput.CustomSector("Security", ""),
+          SectorInput.CustomSector("Fashion", ""),
+        )
 
-            SectorChoiceQuestion(
-                possibleAnswers = possibleAnswers,
-                selectedAnswer = selectedAnswer,
-                onOptionSelected = {
-                    selectedAnswer = it
-                }
-            )
-        }
+      SectorChoiceQuestion(
+        possibleAnswers = possibleAnswers,
+        selectedAnswer = selectedAnswer,
+        onOptionSelected = { selectedAnswer = it },
+      )
     }
+  }
 }

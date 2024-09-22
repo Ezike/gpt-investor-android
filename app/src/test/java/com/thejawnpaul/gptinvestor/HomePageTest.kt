@@ -15,25 +15,22 @@ import org.robolectric.RobolectricTestRunner
 @HiltAndroidTest
 class HomePageTest {
 
-    @get:Rule
-    val rule = PageTestRule(this)
+  @get:Rule val rule = PageTestRule(this)
 
-    @Test
-    fun `check that correct route is registered`() {
-        HomePage()
-            .test(rule)
-            .check { assertThat(route).isEqualTo(Route.Home) }
-    }
+  @Test
+  fun `check that correct route is registered`() {
+    HomePage().test(rule).check { assertThat(route).isEqualTo(Route.Home) }
+  }
 
-    @Test
-    fun `companyClick navigates to Company detail`() {
-        HomePage()
-            .test(rule)
-            .given()
-            .whenever { onNodeWithTag("CompanyItem").performClick() }
-            .then {
-                assertThat(navArg).isEqualTo("AAPL")
-                assertThat(destination).isEqualTo(Route.CompanyDetail)
-            }
-    }
+  @Test
+  fun `companyClick navigates to Company detail`() {
+    HomePage()
+      .test(rule)
+      .given()
+      .whenever { onNodeWithTag("CompanyItem").performClick() }
+      .then {
+        assertThat(navArg).isEqualTo("AAPL")
+        assertThat(destination).isEqualTo(Route.CompanyDetail)
+      }
+  }
 }

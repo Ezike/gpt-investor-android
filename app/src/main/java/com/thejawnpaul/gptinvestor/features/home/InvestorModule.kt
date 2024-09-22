@@ -11,15 +11,13 @@ import retrofit2.Retrofit
 
 @[Module InstallIn(ViewModelComponent::class)]
 interface InvestorModule {
-    @Binds
-    fun provideInvestorRepository(repository: InvestorRepositoryImpl): InvestorRepository
+  @Binds fun provideInvestorRepository(repository: InvestorRepositoryImpl): InvestorRepository
 
-    companion object {
-        @Provides
-        fun provideInvestorService(retrofit: Retrofit): InvestorService =
-            retrofit.create(InvestorService::class.java)
+  companion object {
+    @Provides
+    fun provideInvestorService(retrofit: Retrofit): InvestorService =
+      retrofit.create(InvestorService::class.java)
 
-        @Provides
-        fun provideCoroutineDispatcher(): CoroutineDispatcher = Dispatchers.IO
-    }
+    @Provides fun provideCoroutineDispatcher(): CoroutineDispatcher = Dispatchers.IO
+  }
 }

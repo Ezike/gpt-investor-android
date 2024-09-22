@@ -9,13 +9,14 @@ import kotlinx.collections.immutable.persistentMapOf
 @Stable
 class PageRegistry {
 
-    private val homePage = HomePage()
-    private val companyPage = CompanyPage()
-    private val newsDetailPage = NewsDetailPage()
+  private val homePage = HomePage()
+  private val companyPage = CompanyPage()
+  private val newsDetailPage = NewsDetailPage()
 
-    val pages = persistentMapOf(
-        homePage.route to homePage,
-        companyPage.route to companyPage,
-        newsDetailPage.route to newsDetailPage
+  val pages =
+    persistentMapOf(
+      homePage.route to homePage,
+      companyPage.route to companyPage,
+      newsDetailPage.route to newsDetailPage,
     )
 }

@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin) apply false
     alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.hiltAndroid) apply false
-    alias(libs.plugins.ktLint) apply false
+    alias(libs.plugins.ktfmt) apply false
     alias(libs.plugins.googleServices) apply false
     alias(libs.plugins.crashlytics) apply false
     alias(libs.plugins.ksp) apply false

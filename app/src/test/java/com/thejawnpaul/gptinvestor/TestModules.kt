@@ -17,45 +17,26 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import retrofit2.Retrofit
 
-@Module(
-    includes = [
-        DatabaseModule::class,
-        RemoteModule::class
-    ],
-)
-@TestInstallIn(
-    components = [SingletonComponent::class],
-    replaces = [CompanyModule::class]
-)
+@Module(includes = [DatabaseModule::class, RemoteModule::class])
+@TestInstallIn(components = [SingletonComponent::class], replaces = [CompanyModule::class])
 class TestCompanyModule {
 
-    @Provides
-    fun provideCompanyRepo(): CompanyRepository = FakeCompanyRepository()
+  @Provides fun provideCompanyRepo(): CompanyRepository = FakeCompanyRepository()
 
-    @Provides
-    fun provideCompanyService(retrofit: Retrofit): CompanyService =
-        retrofit.create(CompanyService::class.java)
+  @Provides
+  fun provideCompanyService(retrofit: Retrofit): CompanyService =
+    retrofit.create(CompanyService::class.java)
 
-    @Provides
-    fun providesCompanyDao(db: GPTInvestorDatabase) = db.companyDao()
+  @Provides fun providesCompanyDao(db: GPTInvestorDatabase) = db.companyDao()
 }
 
-@Module(
-    includes = [
-        DatabaseModule::class,
-        RemoteModule::class
-    ],
-)
-@TestInstallIn(
-    components = [SingletonComponent::class],
-    replaces = [InvestorModule::class]
-)
+@Module(includes = [DatabaseModule::class, RemoteModule::class])
+@TestInstallIn(components = [SingletonComponent::class], replaces = [InvestorModule::class])
 object TestInvestorModule {
 
-    @Provides
-    fun provideInvestorRepository(): InvestorRepository = FakeInvestorRepository()
+  @Provides fun provideInvestorRepository(): InvestorRepository = FakeInvestorRepository()
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @Provides
-    fun provideCoroutineDispatcher(): CoroutineDispatcher = UnconfinedTestDispatcher()
+  @OptIn(ExperimentalCoroutinesApi::class)
+  @Provides
+  fun provideCoroutineDispatcher(): CoroutineDispatcher = UnconfinedTestDispatcher()
 }

@@ -15,25 +15,23 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            GPTInvestorTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    val navHostController = rememberNavController()
-                    val pageHolder = remember(navHostController) {
-                        PageHolder(
-                            pageRegistry = PageRegistry(),
-                            navHostController = navHostController,
-                            navigator = AppNavigator(navHostController),
-                        )
-                    }
-                    pageHolder.UI()
-                }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContent {
+      GPTInvestorTheme {
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+          val navHostController = rememberNavController()
+          val pageHolder =
+            remember(navHostController) {
+              PageHolder(
+                pageRegistry = PageRegistry(),
+                navHostController = navHostController,
+                navigator = AppNavigator(navHostController),
+              )
             }
+          pageHolder.UI()
         }
+      }
     }
+  }
 }

@@ -1,5 +1,4 @@
 import java.util.Properties
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     alias(libs.plugins.androidApplication)
@@ -7,7 +6,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hiltAndroid)
-    alias(libs.plugins.ktLint)
+    alias(libs.plugins.ktfmt)
     alias(libs.plugins.googleServices)
     alias(libs.plugins.crashlytics)
 }
@@ -101,21 +100,8 @@ composeCompiler {
     enableStrongSkippingMode = true
 }
 
-ktlint {
-    android = true
-    ignoreFailures = false
-    reporters {
-        reporter(ReporterType.PLAIN)
-        reporter(ReporterType.CHECKSTYLE)
-        reporter(ReporterType.SARIF)
-    }
-    additionalEditorconfig.set(
-        mapOf(
-            "ktlint_code_style" to "android_studio",
-            "ktlint_function_naming_ignore_when_annotated_with" to "Composable",
-            "max_line_length" to "140"
-        )
-    )
+ktfmt {
+    googleStyle()
 }
 
 dependencies {

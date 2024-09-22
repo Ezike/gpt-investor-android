@@ -12,12 +12,14 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
-    @Singleton
-    @Provides
-    fun provideDataBase(@ApplicationContext context: Context): GPTInvestorDatabase =
-        Room.databaseBuilder(
-            context.applicationContext,
-            GPTInvestorDatabase::class.java,
-            GPTInvestorDatabase.DB_NAME
-        ).fallbackToDestructiveMigration().build()
+  @Singleton
+  @Provides
+  fun provideDataBase(@ApplicationContext context: Context): GPTInvestorDatabase =
+    Room.databaseBuilder(
+        context.applicationContext,
+        GPTInvestorDatabase::class.java,
+        GPTInvestorDatabase.DB_NAME,
+      )
+      .fallbackToDestructiveMigration()
+      .build()
 }

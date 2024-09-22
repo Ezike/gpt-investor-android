@@ -34,98 +34,86 @@ import com.thejawnpaul.gptinvestor.features.company.CompanyViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CompanyDetailScreen(
-    modifier: Modifier,
-    onNavigationBtnClick: () -> Unit,
-    onNewsClick: (String) -> Unit,
-    viewModel: CompanyViewModel
+  modifier: Modifier,
+  onNavigationBtnClick: () -> Unit,
+  onNewsClick: (String) -> Unit,
+  viewModel: CompanyViewModel,
 ) {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-    val selectedCompany = viewModel.selectedCompany.collectAsState()
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            MediumTopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary
-                ),
-                title = {
-                    Text(
-                        text = selectedCompany.value.company?.name ?: "",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = {
-                        onNavigationBtnClick()
-                        viewModel.resetSimilarCompanies()
-                    }) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.back)
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = {
-                    }) {
-                        Icon(
-                            imageVector = Icons.Outlined.Star,
-                            contentDescription = stringResource(id = R.string.star)
-                        )
-                    }
-                },
-                scrollBehavior = scrollBehavior
-            )
-        }
-    ) { innerPadding ->
-        val state = viewModel.selectedTab.collectAsState()
-        val titles = listOf("Data", "News", "AI")
-        Box(
-            modifier = Modifier
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-                .padding(innerPadding)
-                .fillMaxSize()
-        ) {
-            Column(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 0.dp)
-            ) {
-                PrimaryTabRow(selectedTabIndex = state.value) {
-                    titles.forEachIndexed { index, title ->
-                        Tab(
-                            selected = state.value == index,
-                            onClick = {
-                                viewModel.selectTab(index)
-                            },
-                            text = {
-                                Text(
-                                    text = title,
-                                    maxLines = 2,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                            }
-                        )
-                    }
-                }
-                AnimatedContent(targetState = state.value) { targetState ->
-                    when (targetState) {
-                        0 -> CompanyDataScreen(modifier = Modifier, viewModel = viewModel)
-                        1 -> CompanyNewsScreen(
-                            modifier = Modifier,
-                            onNewsClick = onNewsClick,
-                            viewModel = viewModel
-                        )
-
-                        2 -> AIInvestorScreen(
-                            modifier = Modifier,
-                            viewModel = viewModel
-                        )
-                    }
-                }
+  val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+  val selectedCompany = viewModel.selectedCompany.collectAsState()
+  Scaffold(
+    modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+    topBar = {
+      MediumTopAppBar(
+        colors =
+          TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.primary,
+          ),
+        title = {
+          Text(
+            text = selectedCompany.value.company?.name ?: "",
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+          )
+        },
+        navigationIcon = {
+          IconButton(
+            onClick = {
+              onNavigationBtnClick()
+              viewModel.resetSimilarCompanies()
             }
+          ) {
+            Icon(
+              imageVector = Icons.Filled.ArrowBack,
+              contentDescription = stringResource(id = R.string.back),
+            )
+          }
+        },
+        actions = {
+          IconButton(onClick = {}) {
+            Icon(
+              imageVector = Icons.Outlined.Star,
+              contentDescription = stringResource(id = R.string.star),
+            )
+          }
+        },
+        scrollBehavior = scrollBehavior,
+      )
+    },
+  ) { innerPadding ->
+    val state = viewModel.selectedTab.collectAsState()
+    val titles = listOf("Data", "News", "AI")
+    Box(
+      modifier =
+        Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+          .padding(innerPadding)
+          .fillMaxSize()
+    ) {
+      Column(modifier = Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 0.dp)) {
+        PrimaryTabRow(selectedTabIndex = state.value) {
+          titles.forEachIndexed { index, title ->
+            Tab(
+              selected = state.value == index,
+              onClick = { viewModel.selectTab(index) },
+              text = { Text(text = title, maxLines = 2, overflow = TextOverflow.Ellipsis) },
+            )
+          }
         }
+        AnimatedContent(targetState = state.value) { targetState ->
+          when (targetState) {
+            0 -> CompanyDataScreen(modifier = Modifier, viewModel = viewModel)
+            1 ->
+              CompanyNewsScreen(
+                modifier = Modifier,
+                onNewsClick = onNewsClick,
+                viewModel = viewModel,
+              )
+
+            2 -> AIInvestorScreen(modifier = Modifier, viewModel = viewModel)
+          }
+        }
+      }
     }
+  }
 }

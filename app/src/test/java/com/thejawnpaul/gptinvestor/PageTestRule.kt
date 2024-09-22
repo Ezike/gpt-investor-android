@@ -18,48 +18,46 @@ import org.junit.runners.model.Statement
 import org.robolectric.Shadows.shadowOf
 
 class PageTestRule(
-    private val testClass: Any,
-    private val composeTestRule: ComposeContentTestRule = ComposeRule(),
-    private val hiltRule: HiltAndroidRule = HiltAndroidRule(testClass),
+  private val testClass: Any,
+  private val composeTestRule: ComposeContentTestRule = ComposeRule(),
+  private val hiltRule: HiltAndroidRule = HiltAndroidRule(testClass),
 ) : TestRule, ComposeContentTestRule by composeTestRule {
 
-    override fun apply(base: Statement?, description: Description?): Statement = RuleChain
-        .outerRule(ActivityRule())
-        .around(hiltRule)
-        .around(composeTestRule)
-        .around(HiltInjectRule())
-        .apply(base, description)
+  override fun apply(base: Statement?, description: Description?): Statement =
+    RuleChain.outerRule(ActivityRule())
+      .around(hiltRule)
+      .around(composeTestRule)
+      .around(HiltInjectRule())
+      .apply(base, description)
 
-    private inner class HiltInjectRule : TestWatcher() {
-        override fun starting(description: Description?) {
-            super.starting(description)
-            hiltRule.inject()
-        }
+  private inner class HiltInjectRule : TestWatcher() {
+    override fun starting(description: Description?) {
+      super.starting(description)
+      hiltRule.inject()
     }
+  }
 
-    private class ComposeRule(
-        private val composeTestRule: ComposeContentTestRule = createAndroidComposeRule<TestHiltActivity>(),
-    ) : ComposeContentTestRule by composeTestRule {
-        override fun setContent(composable: @Composable () -> Unit) {
-            composeTestRule.setContent {
-                CompositionLocalProvider(
-                    LocalLifecycleOwner provides TestLifecycleOwner()
-                ) {
-                    composable()
-                }
-            }
-        }
+  private class ComposeRule(
+    private val composeTestRule: ComposeContentTestRule =
+      createAndroidComposeRule<TestHiltActivity>()
+  ) : ComposeContentTestRule by composeTestRule {
+    override fun setContent(composable: @Composable () -> Unit) {
+      composeTestRule.setContent {
+        CompositionLocalProvider(LocalLifecycleOwner provides TestLifecycleOwner()) { composable() }
+      }
     }
+  }
 
-    private class ActivityRule : TestWatcher() {
-        override fun starting(description: Description?) {
-            super.starting(description)
-            val appContext: Application = ApplicationProvider.getApplicationContext()
-            val activityInfo = ActivityInfo().apply {
-                name = TestHiltActivity::class.java.name
-                packageName = appContext.packageName
-            }
-            shadowOf(appContext.packageManager).addOrUpdateActivity(activityInfo)
+  private class ActivityRule : TestWatcher() {
+    override fun starting(description: Description?) {
+      super.starting(description)
+      val appContext: Application = ApplicationProvider.getApplicationContext()
+      val activityInfo =
+        ActivityInfo().apply {
+          name = TestHiltActivity::class.java.name
+          packageName = appContext.packageName
         }
+      shadowOf(appContext.packageManager).addOrUpdateActivity(activityInfo)
     }
+  }
 }

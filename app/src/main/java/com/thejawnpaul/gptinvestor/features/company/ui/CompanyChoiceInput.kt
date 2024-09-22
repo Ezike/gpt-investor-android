@@ -17,43 +17,50 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CompanyChoiceQuestion(
-    possibleAnswers: List<String>,
-    selectedAnswer: String?,
-    onOptionSelected: (String) -> Unit,
-    enabled: Boolean,
-    modifier: Modifier = Modifier
+  possibleAnswers: List<String>,
+  selectedAnswer: String?,
+  onOptionSelected: (String) -> Unit,
+  enabled: Boolean,
+  modifier: Modifier = Modifier,
 ) {
-    FlowRow(modifier = modifier.padding(start = 8.dp, end = 8.dp)) {
-        possibleAnswers.forEach {
-            val selected = it == selectedAnswer
-            SingleCompanyChoice(
-                modifier = Modifier.padding(horizontal = 4.dp),
-                company = it,
-                selected = selected,
-                enabled = enabled,
-                onOptionSelected = { onOptionSelected(it) }
-            )
-        }
+  FlowRow(modifier = modifier.padding(start = 8.dp, end = 8.dp)) {
+    possibleAnswers.forEach {
+      val selected = it == selectedAnswer
+      SingleCompanyChoice(
+        modifier = Modifier.padding(horizontal = 4.dp),
+        company = it,
+        selected = selected,
+        enabled = enabled,
+        onOptionSelected = { onOptionSelected(it) },
+      )
     }
+  }
 }
 
 @Composable
-fun SingleCompanyChoice(company: String, selected: Boolean, enabled: Boolean, onOptionSelected: () -> Unit, modifier: Modifier = Modifier) {
-    Surface(
-        modifier = modifier
-            .clip(MaterialTheme.shapes.small)
-            .selectable(
-                selected,
-                enabled = enabled,
-                onClick = onOptionSelected,
-                role = Role.RadioButton
-            )
-    ) {
-        FilterChip(
-            selected = selected,
-            enabled = enabled,
-            onClick = onOptionSelected,
-            label = { Text(text = company) }
+fun SingleCompanyChoice(
+  company: String,
+  selected: Boolean,
+  enabled: Boolean,
+  onOptionSelected: () -> Unit,
+  modifier: Modifier = Modifier,
+) {
+  Surface(
+    modifier =
+      modifier
+        .clip(MaterialTheme.shapes.small)
+        .selectable(
+          selected,
+          enabled = enabled,
+          onClick = onOptionSelected,
+          role = Role.RadioButton,
         )
-    }
+  ) {
+    FilterChip(
+      selected = selected,
+      enabled = enabled,
+      onClick = onOptionSelected,
+      label = { Text(text = company) },
+    )
+  }
 }

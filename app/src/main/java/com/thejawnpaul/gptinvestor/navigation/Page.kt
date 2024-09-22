@@ -5,24 +5,19 @@ import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModelStoreOwner
 
 interface Page {
-    val route: Route
+  val route: Route
 
-    @Composable
-    fun Content(pageContext: PageContext)
+  @Composable fun Content(pageContext: PageContext)
 }
 
-@Stable
-data class PageContext(
-    val navArgs: String?,
-    val navigator: Navigator,
-) {
-    /**
-     * Returns a [ViewModelStoreOwner] for the given [route].
-     * Can be used to share the same ViewModel instance. Eg:
-     * ```kotlin
-     *    val sharedViewModel =
-     *             hiltViewModel<ViewModel>(pageContext.getViewModelStoreOwner(Route))
-     */
-    fun getViewModelStoreOwner(route: Route): ViewModelStoreOwner =
-        navigator.getBackstackEntry(route)
-}
+@Stable data class PageContext(val navArgs: String?, val navigator: Navigator)
+
+/**
+ * Returns a [ViewModelStoreOwner] for the given [route]. Can be used to share the same ViewModel
+ * instance. Eg:
+ * ```kotlin
+ *    val sharedViewModel =
+ *             hiltViewModel<ViewModel>(pageContext.getViewModelStoreOwner(Route))
+ */
+fun PageContext.getViewModelStoreOwner(route: Route): ViewModelStoreOwner =
+  navigator.getBackstackEntry(route)

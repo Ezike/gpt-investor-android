@@ -8,15 +8,13 @@ import com.thejawnpaul.gptinvestor.navigation.Route
 
 class NewsDetailPage : Page {
 
-    override val route: Route get() = Route.NewsDetail
+  override val route: Route
+    get() = Route.NewsDetail
 
-    @Composable
-    override fun Content(pageContext: PageContext) {
-        pageContext.navArgs?.let { url ->
-            NewsDetailScreen(
-                url = url,
-                onNavigationBtnClick = pageContext.navigator::navigateUp
-            )
-        }
+  @Composable
+  override fun Content(pageContext: PageContext) {
+    pageContext.navArgs?.let { url ->
+      NewsDetailScreen(url = url, onNavigationBtnClick = pageContext.navigator::navigateUp)
     }
+  }
 }

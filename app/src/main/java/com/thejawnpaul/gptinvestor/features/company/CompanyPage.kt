@@ -10,21 +10,17 @@ import com.thejawnpaul.gptinvestor.navigation.Route
 
 class CompanyPage : Page {
 
-    override val route: Route get() = Route.CompanyDetail
+  override val route: Route
+    get() = Route.CompanyDetail
 
-    @Composable
-    override fun Content(pageContext: PageContext) {
-        val companyViewModel = hiltViewModel<CompanyViewModel>()
-        CompanyDetailScreen(
-            modifier = Modifier,
-            viewModel = companyViewModel,
-            onNavigationBtnClick = pageContext.navigator::navigateUp,
-            onNewsClick = { url ->
-                pageContext.navigator.navigate(
-                    route = Route.NewsDetail,
-                    arg = url,
-                )
-            }
-        )
-    }
+  @Composable
+  override fun Content(pageContext: PageContext) {
+    val companyViewModel = hiltViewModel<CompanyViewModel>()
+    CompanyDetailScreen(
+      modifier = Modifier,
+      viewModel = companyViewModel,
+      onNavigationBtnClick = pageContext.navigator::navigateUp,
+      onNewsClick = { url -> pageContext.navigator.navigate(route = Route.NewsDetail, arg = url) },
+    )
+  }
 }

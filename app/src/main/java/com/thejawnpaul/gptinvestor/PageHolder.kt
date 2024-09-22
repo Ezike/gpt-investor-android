@@ -15,37 +15,31 @@ import com.thejawnpaul.gptinvestor.navigation.Route
 import com.thejawnpaul.gptinvestor.navigation.argKey
 
 class PageHolder(
-    private val navigator: AppNavigator,
-    private val pageRegistry: PageRegistry,
-    private val navHostController: NavHostController
+  private val navigator: AppNavigator,
+  private val pageRegistry: PageRegistry,
+  private val navHostController: NavHostController,
 ) {
-    @Composable
-    fun UI() {
-        NavHost(
-            navController = navHostController,
-            startDestination = Route.Home.value
-        ) {
-            pageRegistry.pages.forEach { (route, page) ->
-                composable(
-                    route = route.value,
-                    arguments = listOfNotNull(route.argKey?.let { navArgument(it) { NavType.StringType } })
-                ) { navBackStackEntry ->
-                    val pageContext = remember(navBackStackEntry) {
-                        PageContext(
-                            navigator = navigator,
-                            navArgs = navBackStackEntry.arguments?.getString(route.argKey),
-                        )
-                    }
-                    /**
-                     * workaround for [issue](https://issuetracker.google.com/issues/336842920)
-                     */
-                    CompositionLocalProvider(
-                        LocalLifecycleOwner provides navBackStackEntry
-                    ) {
-                        page.Content(pageContext)
-                    }
-                }
+  @Composable
+  fun UI() {
+    NavHost(navController = navHostController, startDestination = Route.Home.value) {
+      pageRegistry.pages.forEach { (route, page) ->
+        composable(
+          route = route.value,
+          arguments = listOfNotNull(route.argKey?.let { navArgument(it) { NavType.StringType } }),
+        ) { navBackStackEntry ->
+          val pageContext =
+            remember(navBackStackEntry) {
+              PageContext(
+                navigator = navigator,
+                navArgs = navBackStackEntry.arguments?.getString(route.argKey),
+              )
             }
+          /** workaround for [issue](https://issuetracker.google.com/issues/336842920) */
+          CompositionLocalProvider(LocalLifecycleOwner provides navBackStackEntry) {
+            page.Content(pageContext)
+          }
         }
+      }
     }
+  }
 }

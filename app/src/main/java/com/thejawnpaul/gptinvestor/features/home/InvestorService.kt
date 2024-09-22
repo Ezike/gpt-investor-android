@@ -12,18 +12,17 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface InvestorService {
-    @POST("save-comparison")
-    suspend fun saveComparison(@Body request: SaveComparisonRequest): DefaultSaveResponse
+  @POST("save-comparison")
+  suspend fun saveComparison(@Body request: SaveComparisonRequest): DefaultSaveResponse
 
-    @POST("save-sentiment")
-    suspend fun saveSentiment(@Body request: SaveSentimentRequest): DefaultSaveResponse
+  @POST("save-sentiment")
+  suspend fun saveSentiment(@Body request: SaveSentimentRequest): DefaultSaveResponse
 
-    @POST("get-analyst-rating")
-    suspend fun getAnalystRating(@Body request: AnalystRatingRequest): AnalystRatingResponse
+  @POST("get-analyst-rating")
+  suspend fun getAnalystRating(@Body request: AnalystRatingRequest): AnalystRatingResponse
 
-    @POST("save-industry-rating")
-    suspend fun saveIndustryRating(@Body request: IndustryRatingRequest): DefaultSaveResponse
+  @POST("save-industry-rating")
+  suspend fun saveIndustryRating(@Body request: IndustryRatingRequest): DefaultSaveResponse
 
-    @POST("create-pdf")
-    suspend fun createPdf(@Body request: DownloadPdfRequest): DownloadPdfResponse
+  @POST("create-pdf") suspend fun createPdf(@Body request: DownloadPdfRequest): DownloadPdfResponse
 }

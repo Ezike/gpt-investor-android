@@ -7,84 +7,69 @@ import com.thejawnpaul.gptinvestor.navigation.PageContext
 import com.thejawnpaul.gptinvestor.navigation.Route
 
 fun Page.test(composeTestRule: ComposeContentTestRule) =
-    PageTestSpec.create(
-        sut = this,
-        composeContentTestRule = composeTestRule
-    )
+  PageTestSpec.create(sut = this, composeContentTestRule = composeTestRule)
 
 fun PageTestSpec.check(thenScope: PageTestSpecThenScope.() -> Unit) =
-    given().whenever { }.then(thenScope)
+  given().whenever {}.then(thenScope)
 
-class PageTestSpec private constructor(
-    private val sut: Page,
-    private val composeContentTestRule: ComposeContentTestRule
+class PageTestSpec
+private constructor(
+  private val sut: Page,
+  private val composeContentTestRule: ComposeContentTestRule,
 ) {
 
-    fun given(arg: Any? = null) = PageTestSpecWhenImpl(
-        sut = sut,
-        arg = arg,
-        composeContentTestRule = composeContentTestRule,
-    )
+  fun given(arg: Any? = null) =
+    PageTestSpecWhenImpl(sut = sut, arg = arg, composeContentTestRule = composeContentTestRule)
 
-    companion object {
-        fun create(
-            sut: Page,
-            composeContentTestRule: ComposeContentTestRule
-        ) = PageTestSpec(
-            sut = sut,
-            composeContentTestRule = composeContentTestRule,
-        )
-    }
+  companion object {
+    fun create(sut: Page, composeContentTestRule: ComposeContentTestRule) =
+      PageTestSpec(sut = sut, composeContentTestRule = composeContentTestRule)
+  }
 }
 
 class PageTestSpecWhenImpl(
-    private val sut: Page,
-    private val arg: Any?,
-    private val composeContentTestRule: ComposeContentTestRule
+  private val sut: Page,
+  private val arg: Any?,
+  private val composeContentTestRule: ComposeContentTestRule,
 ) {
-    fun whenever(whenScope: PageTestSpecWhenScope.() -> Unit) = PageTestSpecThenImpl(
-        sut = sut,
-        arg = arg,
-        whenScope = whenScope,
-        composeTestRule = composeContentTestRule,
+  fun whenever(whenScope: PageTestSpecWhenScope.() -> Unit) =
+    PageTestSpecThenImpl(
+      sut = sut,
+      arg = arg,
+      whenScope = whenScope,
+      composeTestRule = composeContentTestRule,
     )
 }
 
 class PageTestSpecThenImpl(
-    private val sut: Page,
-    private val arg: Any?,
-    private val whenScope: PageTestSpecWhenScope.() -> Unit,
-    private val composeTestRule: ComposeContentTestRule,
+  private val sut: Page,
+  private val arg: Any?,
+  private val whenScope: PageTestSpecWhenScope.() -> Unit,
+  private val composeTestRule: ComposeContentTestRule,
 ) {
-    fun then(thenScope: PageTestSpecThenScope.() -> Unit) {
-        val navigator = FakeNavigator()
-        val thenScopeImpl = ThenScopeImpl(sut, navigator)
-        composeTestRule.setContent {
-            navigator.context = LocalContext.current
-            sut.Content(
-                pageContext = PageContext(
-                    navArgs = arg?.toString(),
-                    navigator = navigator,
-                ),
-            )
-        }
-        WhenScopeImpl().whenScope()
-        thenScopeImpl.thenScope()
+  fun then(thenScope: PageTestSpecThenScope.() -> Unit) {
+    val navigator = FakeNavigator()
+    val thenScopeImpl = ThenScopeImpl(sut, navigator)
+    composeTestRule.setContent {
+      navigator.context = LocalContext.current
+      sut.Content(pageContext = PageContext(navArgs = arg?.toString(), navigator = navigator))
     }
+    WhenScopeImpl().whenScope()
+    thenScopeImpl.thenScope()
+  }
 
-    private inner class ThenScopeImpl(
-        private val sut: Page,
-        private val navigator: FakeNavigator,
-    ) : PageTestSpecThenScope, TestNavigator by navigator {
-        override val route: Route get() = sut.route
-    }
+  private inner class ThenScopeImpl(private val sut: Page, private val navigator: FakeNavigator) :
+    PageTestSpecThenScope, TestNavigator by navigator {
+    override val route: Route
+      get() = sut.route
+  }
 
-    private inner class WhenScopeImpl :
-        PageTestSpecWhenScope,
-        ComposeContentTestRule by composeTestRule
+  private inner class WhenScopeImpl :
+    PageTestSpecWhenScope, ComposeContentTestRule by composeTestRule
 }
 
 interface PageTestSpecWhenScope : ComposeContentTestRule
+
 interface PageTestSpecThenScope : TestNavigator {
-    val route: Route
+  val route: Route
 }
