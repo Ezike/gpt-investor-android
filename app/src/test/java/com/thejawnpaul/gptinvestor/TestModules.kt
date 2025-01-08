@@ -7,7 +7,7 @@ import com.thejawnpaul.gptinvestor.features.company.CompanyRepository
 import com.thejawnpaul.gptinvestor.features.company.CompanyService
 import com.thejawnpaul.gptinvestor.features.home.InvestorModule
 import com.thejawnpaul.gptinvestor.features.home.InvestorRepository
-import com.thejawnpaul.gptinvestor.remote.RemoteModule
+import com.thejawnpaul.gptinvestor.remotetest.TestRemoteModule
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
@@ -17,7 +17,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import retrofit2.Retrofit
 
-@Module(includes = [DatabaseModule::class, RemoteModule::class])
+@Module(includes = [DatabaseModule::class, TestRemoteModule::class])
 @TestInstallIn(components = [SingletonComponent::class], replaces = [CompanyModule::class])
 class TestCompanyModule {
 
@@ -30,7 +30,7 @@ class TestCompanyModule {
   @Provides fun providesCompanyDao(db: GPTInvestorDatabase) = db.companyDao()
 }
 
-@Module(includes = [DatabaseModule::class, RemoteModule::class])
+@Module(includes = [DatabaseModule::class, TestRemoteModule::class])
 @TestInstallIn(components = [SingletonComponent::class], replaces = [InvestorModule::class])
 object TestInvestorModule {
 

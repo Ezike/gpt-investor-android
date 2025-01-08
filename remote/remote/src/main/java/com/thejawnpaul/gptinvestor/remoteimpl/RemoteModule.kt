@@ -1,4 +1,4 @@
-package com.thejawnpaul.gptinvestor.remote
+package com.thejawnpaul.gptinvestor.remoteimpl
 
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -11,8 +11,7 @@ import retrofit2.Retrofit
 @Module
 @InstallIn(SingletonComponent::class)
 object RemoteModule {
-  @Provides fun provideRetrofit(remoteFactory: RemoteFactory): Retrofit = remoteFactory.retrofit
+  @Provides @Singleton fun provideRetrofit(moshi: Moshi): Retrofit = RetrofitFactory.create(moshi)
 
-  @[Provides Singleton]
-  fun provideMoshi(): Moshi = Moshi.Builder().build()
+  @Provides @Singleton fun provideMoshi(): Moshi = Moshi.Builder().build()
 }
