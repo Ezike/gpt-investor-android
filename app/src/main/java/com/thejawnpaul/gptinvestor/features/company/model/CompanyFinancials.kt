@@ -35,7 +35,4 @@ data class NewsInfo(
   val publisher: String,
   val imageUrl: String,
   val link: String,
-) {
-  val dummyLink: String
-    get() = link.replace("/", "|")
-}
+)

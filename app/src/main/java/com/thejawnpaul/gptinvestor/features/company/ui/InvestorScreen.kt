@@ -27,7 +27,7 @@ import com.thejawnpaul.gptinvestor.R
 import com.thejawnpaul.gptinvestor.features.company.CompanyViewModel
 
 @Composable
-fun AIInvestorScreen(modifier: Modifier, viewModel: CompanyViewModel) {
+fun AIInvestorScreen(modifier: Modifier = Modifier, viewModel: CompanyViewModel) {
   val company = viewModel.selectedCompany.collectAsState()
   val similarCompanies = viewModel.similarCompanies.collectAsState()
   val comparisonCardVisible = similarCompanies.value.result != null
@@ -46,7 +46,7 @@ fun AIInvestorScreen(modifier: Modifier, viewModel: CompanyViewModel) {
 
   Column {
     // Discover similar companies
-    ElevatedCard(modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)) {
+    ElevatedCard(modifier = modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)) {
       Text(
         text = stringResource(id = R.string.discover_related_companies),
         style = MaterialTheme.typography.headlineSmall,
@@ -70,8 +70,6 @@ fun AIInvestorScreen(modifier: Modifier, viewModel: CompanyViewModel) {
           Text(text = stringResource(id = R.string.go))
         }
       } else {
-        // show kotlin code
-        val codeText = similarCompanies.value.result!!.codeText
         val companies = similarCompanies.value.result!!.companies
         val code = buildAnnotatedString {
           val spanStyle = SpanStyle(fontFamily = FontFamily.Monospace)

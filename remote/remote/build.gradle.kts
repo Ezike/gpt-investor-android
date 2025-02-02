@@ -1,8 +1,7 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
 plugins {
-  id("com.android.library")
+  alias(libs.plugins.android.library)
   alias(libs.plugins.kotlin.android)
   alias(libs.plugins.hiltAndroid)
   alias(libs.plugins.ksp)
@@ -11,7 +10,7 @@ plugins {
 android {
   val localProperties = Properties()
   localProperties.load(project.rootProject.file("local.properties").reader())
-  namespace = "com.thejawnpaul.gptinvestor"
+  namespace = "com.thejawnpaul.gptinvestor.remote"
   compileSdk = 34
   defaultConfig.minSdk = 24
   buildTypes {

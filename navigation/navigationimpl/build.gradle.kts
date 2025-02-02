@@ -1,14 +1,13 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
   alias(libs.plugins.android.library)
   alias(libs.plugins.kotlin.android)
-  alias(libs.plugins.hiltAndroid)
   alias(libs.plugins.ksp)
+  alias(libs.plugins.hiltAndroid)
+  alias(libs.plugins.compose.compiler)
 }
 
 android {
-  namespace = "com.thejawnpaul.gptinvestor.remotetest"
+  namespace = "com.thejawnpaul.gptinvestor.navigationimpl"
   compileSdk = 34
   defaultConfig.minSdk = 24
   compileOptions {
@@ -16,15 +15,13 @@ android {
     targetCompatibility = JavaVersion.VERSION_17
   }
   kotlinOptions { jvmTarget = "17" }
-  buildFeatures { buildConfig = true }
 }
 
-kotlin { compilerOptions { jvmTarget = JvmTarget.JVM_17 } }
-
 dependencies {
+  implementation(project(":navigation:navigation"))
+  implementation(libs.kotlin.immutable.collections)
+  implementation(libs.androidx.navigation.compose)
+  implementation(libs.androidx.compose.runtime)
   implementation(libs.dagger.hilt)
-  implementation(libs.retrofit)
-  implementation(libs.moshi.converter)
-  implementation(libs.okhttp.logger)
   ksp(libs.dagger.hilt.compiler)
 }

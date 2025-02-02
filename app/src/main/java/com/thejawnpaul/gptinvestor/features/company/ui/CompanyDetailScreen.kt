@@ -34,15 +34,15 @@ import com.thejawnpaul.gptinvestor.features.company.CompanyViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CompanyDetailScreen(
-  modifier: Modifier,
+  modifier: Modifier = Modifier,
+  viewModel: CompanyViewModel,
   onNavigationBtnClick: () -> Unit,
   onNewsClick: (String) -> Unit,
-  viewModel: CompanyViewModel,
 ) {
   val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
   val selectedCompany = viewModel.selectedCompany.collectAsState()
   Scaffold(
-    modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+    modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
     topBar = {
       MediumTopAppBar(
         colors =
@@ -90,7 +90,8 @@ fun CompanyDetailScreen(
           .padding(innerPadding)
           .fillMaxSize()
     ) {
-      Column(modifier = Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 0.dp)) {
+      // TODO(): fix scroll issue
+      Column(modifier = Modifier.padding(horizontal = 0.dp)) {
         PrimaryTabRow(selectedTabIndex = state.value) {
           titles.forEachIndexed { index, title ->
             Tab(
@@ -100,17 +101,14 @@ fun CompanyDetailScreen(
             )
           }
         }
-        AnimatedContent(targetState = state.value) { targetState ->
+        AnimatedContent(
+          modifier = Modifier.verticalScroll(rememberScrollState()),
+          targetState = state.value,
+        ) { targetState ->
           when (targetState) {
-            0 -> CompanyDataScreen(modifier = Modifier, viewModel = viewModel)
-            1 ->
-              CompanyNewsScreen(
-                modifier = Modifier,
-                onNewsClick = onNewsClick,
-                viewModel = viewModel,
-              )
-
-            2 -> AIInvestorScreen(modifier = Modifier, viewModel = viewModel)
+            0 -> CompanyDataScreen(viewModel = viewModel)
+            1 -> CompanyNewsScreen(viewModel = viewModel, onNewsClick = onNewsClick)
+            2 -> AIInvestorScreen(viewModel = viewModel)
           }
         }
       }

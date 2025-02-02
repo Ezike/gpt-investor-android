@@ -23,7 +23,6 @@ import com.thejawnpaul.gptinvestor.features.home.ui.state.FinalAnalysisView
 import com.thejawnpaul.gptinvestor.features.home.ui.state.IndustryRatingView
 import com.thejawnpaul.gptinvestor.features.home.ui.state.SimilarCompaniesView
 import com.thejawnpaul.gptinvestor.getCurrencySymbol
-import com.thejawnpaul.gptinvestor.navigation.Route
 import com.thejawnpaul.gptinvestor.toCurrency
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -87,7 +86,7 @@ constructor(
     get() = _selectedTab
 
   private val companyTicker: String
-    get() = savedStateHandle.get<String>(Route.CompanyDetail.key).orEmpty()
+    get() = savedStateHandle.get<String>("ticker").orEmpty()
 
   init {
     loadCompanyData()

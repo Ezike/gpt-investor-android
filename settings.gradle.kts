@@ -23,3 +23,5 @@ rootProject.name = "GPT Investor"
 include(":app")
 include(":remote:remote")
 include(":remote:remotetest")
+include(":navigation:navigation")
+include(":navigation:navigationimpl")

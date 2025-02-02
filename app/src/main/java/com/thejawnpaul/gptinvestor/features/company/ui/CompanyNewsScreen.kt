@@ -11,15 +11,19 @@ import com.thejawnpaul.gptinvestor.features.company.CompanyViewModel
 
 @Composable
 fun CompanyNewsScreen(
-  modifier: Modifier,
+  modifier: Modifier = Modifier,
   onNewsClick: (String) -> Unit,
   viewModel: CompanyViewModel,
 ) {
   val financials by viewModel.companyFinancials.collectAsStateWithLifecycle()
-  Column(modifier = Modifier.padding(horizontal = 8.dp, vertical = 16.dp)) {
+  Column(modifier = modifier.padding(horizontal = 8.dp, vertical = 16.dp)) {
     financials.info?.let { info ->
       info.news.forEach { news ->
-        SingleNewsItem(modifier = Modifier, newsInfo = news, onClick = onNewsClick)
+        SingleNewsItem(
+          modifier = Modifier,
+          newsInfo = news,
+          onClick = { url -> onNewsClick("news?url=${url}") },
+        )
       }
     }
   }

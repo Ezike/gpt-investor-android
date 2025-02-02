@@ -56,7 +56,7 @@ fun NewsDetailScreen(url: String, onNavigationBtnClick: () -> Unit) {
           settings.setSupportZoom(true)
         }
       },
-      update = { webView -> webView.loadUrl(url.replace("|", "/")) },
+      update = { webView -> webView.loadUrl(url) },
     )
   }
 }

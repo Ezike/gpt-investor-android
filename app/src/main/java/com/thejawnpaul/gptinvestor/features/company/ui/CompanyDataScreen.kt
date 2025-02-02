@@ -34,10 +34,10 @@ import com.thejawnpaul.gptinvestor.features.company.CompanyViewModel
 import com.thejawnpaul.gptinvestor.features.company.model.CompanyFinancialsInfo
 
 @Composable
-fun CompanyDataScreen(modifier: Modifier, viewModel: CompanyViewModel) {
+fun CompanyDataScreen(modifier: Modifier = Modifier, viewModel: CompanyViewModel) {
   val company = viewModel.selectedCompany.collectAsStateWithLifecycle()
   val financials = viewModel.companyFinancials.collectAsStateWithLifecycle()
-  Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)) {
+  Column(modifier = modifier.padding(horizontal = 16.dp, vertical = 16.dp)) {
     ElevatedCard(modifier = Modifier.padding(bottom = 16.dp)) {
       CardContent(
         title = stringResource(id = R.string.about),
@@ -71,7 +71,7 @@ private fun CardContent(title: String, content: String) {
         modifier = Modifier.padding(top = 8.dp),
       )
       if (expanded) {
-        Text(text = (content))
+        Text(text = content)
       }
     }
 
@@ -186,59 +186,6 @@ private fun CardNumbers(title: String, financials: CompanyFinancialsInfo?) {
                 cell { Text(financials.marketCap) }
               }
             }
-            /*Column {
-                Row(modifier = Modifier.padding(top = 8.dp)) {
-                    Text(
-                        text = stringResource(id = R.string.open),
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    Text(text = financials.open)
-                }
-
-                Row(modifier = Modifier.padding(top = 8.dp)) {
-                    Text(
-                        text = stringResource(id = R.string.high),
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    Text(text = financials.high)
-                }
-
-                Row(modifier = Modifier.padding(top = 8.dp)) {
-                    Text(
-                        text = stringResource(id = R.string.low),
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    Text(text = financials.low)
-                }
-
-                Row(modifier = Modifier.padding(top = 8.dp)) {
-                    Text(
-                        text = stringResource(id = R.string.close),
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    Text(text = financials.close)
-                }
-                Row(modifier = Modifier.padding(top = 8.dp)) {
-                    Text(
-                        text = stringResource(id = R.string.volume),
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    Text(text = financials.volume)
-                }
-                Row(modifier = Modifier.padding(top = 8.dp)) {
-                    Text(
-                        text = stringResource(id = R.string.market_cap),
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    Text(text = financials.marketCap)
-                }
-            }*/
           }
         }
       }

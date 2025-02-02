@@ -46,13 +46,6 @@ android {
 
       val geminiApiKey: String = localProperties.getProperty("GEMINI_API_KEY") ?: ""
       buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
-
-      val baseUrl: String = localProperties.getProperty("BASE_URL") ?: ""
-      buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
-
-      val accessToken: String = localProperties.getProperty("ACCESS_TOKEN") ?: ""
-      buildConfigField("String", "ACCESS_TOKEN", "\"$accessToken\"")
-
       isMinifyEnabled = true
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
@@ -60,13 +53,6 @@ android {
     debug {
       val geminiApiKey: String = localProperties.getProperty("GEMINI_DEBUG_KEY") ?: ""
       buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
-
-      val baseUrl: String = localProperties.getProperty("BASE_URL") ?: ""
-      buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
-
-      val accessToken: String = localProperties.getProperty("ACCESS_TOKEN") ?: ""
-      buildConfigField("String", "ACCESS_TOKEN", "\"$accessToken\"")
-
       isShrinkResources = false
       isMinifyEnabled = false
       versionNameSuffix = "-dev"
@@ -91,6 +77,8 @@ ktfmt { googleStyle() }
 
 dependencies {
   implementation(project(":remote:remote"))
+  implementation(project(":navigation:navigation"))
+  implementation(project(":navigation:navigationimpl"))
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.lifecycle.runtime.ktx)
   implementation(libs.androidx.activity.compose)

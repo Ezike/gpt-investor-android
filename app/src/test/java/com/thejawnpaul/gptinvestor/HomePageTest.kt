@@ -3,8 +3,7 @@ package com.thejawnpaul.gptinvestor
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.google.common.truth.Truth.assertThat
-import com.thejawnpaul.gptinvestor.features.home.HomePage
-import com.thejawnpaul.gptinvestor.navigation.Route
+import com.thejawnpaul.gptinvestor.features.home.homepage
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
 import org.junit.Test
@@ -17,20 +16,19 @@ class HomePageTest {
 
   @get:Rule val rule = PageTestRule(this)
 
+  private val navigator = FakeNavigator()
+
   @Test
   fun `check that correct route is registered`() {
-    HomePage().test(rule).check { assertThat(route).isEqualTo(Route.Home) }
+    homepage(navigator).test(rule).check { assertThat(route).isEqualTo("home") }
   }
 
   @Test
   fun `companyClick navigates to Company detail`() {
-    HomePage()
+    homepage(navigator)
       .test(rule)
       .given()
       .whenever { onNodeWithTag("CompanyItem").performClick() }
-      .then {
-        assertThat(navArg).isEqualTo("AAPL")
-        assertThat(destination).isEqualTo(Route.CompanyDetail)
-      }
+      .then { assertThat(navigator.destination).isEqualTo("company?ticker=AAPL") }
   }
 }

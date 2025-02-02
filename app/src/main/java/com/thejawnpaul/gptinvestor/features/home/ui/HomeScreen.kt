@@ -39,7 +39,7 @@ import com.thejawnpaul.gptinvestor.features.home.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(onCompanyClick: (String) -> Unit, homeViewModel: HomeViewModel) {
+fun HomeScreen(homeViewModel: HomeViewModel, onCompanyClick: (String) -> Unit) {
   val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
   Scaffold(
     modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -112,7 +112,11 @@ fun HomeScreen(onCompanyClick: (String) -> Unit, homeViewModel: HomeViewModel) {
 
       items(items = allCompaniesViewState.value.companies, key = { company -> company.ticker }) {
         company ->
-        SingleCompanyItem(modifier = Modifier, company = company, onClick = { onCompanyClick(it) })
+        SingleCompanyItem(
+          modifier = Modifier,
+          company = company,
+          onClick = { onCompanyClick("company?ticker=$it") },
+        )
       }
     }
   }

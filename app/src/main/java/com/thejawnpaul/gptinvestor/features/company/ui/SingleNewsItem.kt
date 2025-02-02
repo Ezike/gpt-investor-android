@@ -20,7 +20,7 @@ import com.thejawnpaul.gptinvestor.features.company.model.NewsInfo
 
 @Composable
 fun SingleNewsItem(modifier: Modifier, newsInfo: NewsInfo, onClick: (String) -> Unit) {
-  ElevatedCard(modifier = Modifier.padding(16.dp), onClick = { onClick(newsInfo.dummyLink) }) {
+  ElevatedCard(modifier = modifier.padding(16.dp), onClick = { onClick(newsInfo.link) }) {
     Surface(
       modifier =
         Modifier.fillMaxWidth()

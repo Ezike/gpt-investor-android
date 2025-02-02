@@ -1,7 +1,7 @@
 package com.thejawnpaul.gptinvestor.remoteimpl
 
 import com.squareup.moshi.Moshi
-import com.thejawnpaul.gptinvestor.BuildConfig
+import com.thejawnpaul.gptinvestor.remote.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response

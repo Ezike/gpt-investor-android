@@ -5,13 +5,14 @@ coreKtx = "1.13.1"
 junit = "4.13.2"
 androidJunit = "1.2.1"
 espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.3"
-activityCompose = "1.9.0"
-composeBom = "2024.05.00"
+lifecycleRuntimeKtx = "2.8.7"
+activityCompose = "1.9.3"
+composeBom = "2024.12.01"
+compose = "1.7.6"
 robolectric = "4.12.2"
 hilt = "2.51"
 timber = "5.0.1"
-navVersion = "2.7.7"
+navVersion = "2.8.5"
 hiltNavigation = "1.2.0"
 ktfmt = "0.20.1"
 retrofit = "2.11.0"
@@ -31,9 +32,9 @@ junitKtx = "1.2.1"
 moshi = "1.15.1"
 ksp = "2.0.0-1.0.21"
 kotlinImmutableCollections = "0.3.7"
-runner = "1.6.1"
-composeTest = "1.6.8"
-lifecycleTesting = "2.8.3"
+runner = "1.6.2"
+composeTest = "1.7.6"
+lifecycleTesting = "2.8.7"
 
 
 [libraries]
@@ -47,6 +48,7 @@ androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecyc
 androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "compose" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
@@ -84,7 +86,6 @@ androidx-lifecycle-testing = { group = "androidx.lifecycle", name = "lifecycle-r
 core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxVersion" }
 androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
 
-
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -95,4 +96,5 @@ googleServices = { id = "com.google.gms.google-services", version.ref = "googleS
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 
