@@ -35,3 +35,5 @@ include(":navigation:navigationimpl")
 include(":database")
 
 include(":company:company-db")
+
+include(":theme")

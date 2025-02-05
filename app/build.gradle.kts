@@ -76,6 +76,7 @@ composeCompiler { enableStrongSkippingMode = true }
 ktfmt { googleStyle() }
 
 dependencies {
+  implementation(project(":theme"))
   implementation(project(":remote:remote"))
   implementation(project(":database"))
   implementation(project(":navigation:navigation"))
