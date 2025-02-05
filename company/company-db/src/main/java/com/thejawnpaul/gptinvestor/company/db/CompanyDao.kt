@@ -1,4 +1,4 @@
-package com.thejawnpaul.gptinvestor.features.company.db
+package com.thejawnpaul.gptinvestor.company.db
 
 import androidx.room.Dao
 import androidx.room.Insert

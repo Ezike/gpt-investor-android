@@ -1,6 +1,5 @@
 package com.thejawnpaul.gptinvestor.features.company
 
-import com.thejawnpaul.gptinvestor.database.GPTInvestorDatabase
 import com.thejawnpaul.gptinvestor.navigation.Navigator
 import dagger.Binds
 import dagger.Module
@@ -19,8 +18,6 @@ interface CompanyModule {
     @Provides
     fun provideCompanyService(retrofit: Retrofit): CompanyService =
       retrofit.create(CompanyService::class.java)
-
-    @Provides fun providesCompanyDao(db: GPTInvestorDatabase) = db.companyDao()
 
     @Provides @IntoSet fun provideCompanyPage(navigator: Navigator) = companyPage(navigator)
 

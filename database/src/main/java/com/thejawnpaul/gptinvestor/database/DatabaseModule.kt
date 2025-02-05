@@ -22,4 +22,6 @@ object DatabaseModule {
       )
       .fallbackToDestructiveMigration()
       .build()
+
+  @Provides fun providesCompanyDao(db: GPTInvestorDatabase) = db.companyDao()
 }

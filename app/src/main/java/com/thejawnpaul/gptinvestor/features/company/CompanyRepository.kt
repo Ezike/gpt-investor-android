@@ -1,7 +1,7 @@
 package com.thejawnpaul.gptinvestor.features.company
 
-import com.thejawnpaul.gptinvestor.features.company.db.CompanyDao
-import com.thejawnpaul.gptinvestor.features.company.db.CompanyEntity
+import com.thejawnpaul.gptinvestor.company.db.CompanyDao
+import com.thejawnpaul.gptinvestor.company.db.CompanyEntity
 import com.thejawnpaul.gptinvestor.features.company.model.Company
 import com.thejawnpaul.gptinvestor.features.company.model.CompanyDetails
 import com.thejawnpaul.gptinvestor.features.company.model.CompanyFinancials

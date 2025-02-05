@@ -77,8 +77,10 @@ ktfmt { googleStyle() }
 
 dependencies {
   implementation(project(":remote:remote"))
+  implementation(project(":database"))
   implementation(project(":navigation:navigation"))
   implementation(project(":navigation:navigationimpl"))
+  implementation(project(":company:company-db"))
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.lifecycle.runtime.ktx)
   implementation(libs.androidx.activity.compose)
