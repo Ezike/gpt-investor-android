@@ -36,4 +36,10 @@ include(":database")
 
 include(":company:company-db")
 
+include(":company:companyimpl")
+
 include(":theme")
+
+include(":home:home-db")
+
+include(":home:homeimpl")

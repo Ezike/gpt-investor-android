@@ -30,7 +30,7 @@ constructor(private val navState: NavState, private val pages: Set<@JvmSuppressW
           arguments =
             page.route.args.map { arg ->
               navArgument(arg) {
-                type = NavType.Companion.StringType
+                type = NavType.StringType
                 nullable = true
               }
             },

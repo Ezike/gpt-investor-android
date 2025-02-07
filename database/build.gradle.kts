@@ -18,6 +18,7 @@ android {
 
 dependencies {
   implementation(project(":company:company-db"))
+  implementation(project(":home:home-db"))
   implementation(libs.dagger.hilt)
   implementation(libs.androidx.room.ktx)
   ksp(libs.androidx.room.compiler)

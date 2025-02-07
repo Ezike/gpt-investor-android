@@ -24,4 +24,6 @@ object DatabaseModule {
       .build()
 
   @Provides fun providesCompanyDao(db: GPTInvestorDatabase) = db.companyDao()
+
+  @Provides fun providesHomeDao(db: GPTInvestorDatabase) = db.homeDao()
 }

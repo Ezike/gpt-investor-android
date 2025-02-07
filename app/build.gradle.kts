@@ -43,16 +43,11 @@ android {
   buildTypes {
     release {
       signingConfig = signingConfigs.getByName("release")
-
-      val geminiApiKey: String = localProperties.getProperty("GEMINI_API_KEY") ?: ""
-      buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
       isMinifyEnabled = true
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
 
     debug {
-      val geminiApiKey: String = localProperties.getProperty("GEMINI_DEBUG_KEY") ?: ""
-      buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
       isShrinkResources = false
       isMinifyEnabled = false
       versionNameSuffix = "-dev"
@@ -77,59 +72,20 @@ ktfmt { googleStyle() }
 
 dependencies {
   implementation(project(":theme"))
-  implementation(project(":remote:remote"))
   implementation(project(":database"))
-  implementation(project(":navigation:navigation"))
+  implementation(project(":home:homeimpl"))
+  implementation(project(":remote:remote"))
+  implementation(project(":company:companyimpl"))
   implementation(project(":navigation:navigationimpl"))
-  implementation(project(":company:company-db"))
   implementation(libs.androidx.core.ktx)
-  implementation(libs.androidx.lifecycle.runtime.ktx)
+  implementation(libs.androidx.material3)
   implementation(libs.androidx.activity.compose)
   implementation(platform(libs.androidx.compose.bom))
-  implementation(libs.androidx.ui)
-  implementation(libs.androidx.ui.graphics)
-  implementation(libs.androidx.ui.tooling.preview)
-  implementation(libs.androidx.material3)
   implementation(libs.dagger.hilt)
   implementation(libs.timber)
   implementation(libs.androidx.navigation.compose)
-  implementation(libs.androidx.hilt.navigation)
-  implementation(libs.retrofit)
-  implementation(libs.moshi.converter)
-  implementation(libs.okhttp.logger)
-  implementation(libs.coil.compose)
-  implementation(libs.core.ktx)
-  implementation(libs.androidx.lifecycle.runtime.compose)
   ksp(libs.dagger.hilt.compiler)
-  implementation(libs.androidx.room)
-  implementation(libs.androidx.room.ktx)
-  ksp(libs.androidx.room.compiler)
-  implementation(libs.moshi)
-  ksp(libs.moshi.codeGen)
-  implementation(libs.timeAgo)
-  implementation(libs.jsoup)
-  implementation(libs.gemini)
-  implementation(libs.richtext.compose)
-  implementation(libs.richtext.commonmark)
-  implementation(platform(libs.firebase.compose.bom))
+  implementation(platform(libs.firebase.bom))
   implementation(libs.firebase.analaytics)
   implementation(libs.firebase.crashlytics)
-  implementation(libs.kotlin.immutable.collections)
-
-  testImplementation(project(":remote:remotetest"))
-  kspTest(libs.dagger.hilt.compiler)
-  testImplementation(libs.androidx.lifecycle.testing)
-  testImplementation(libs.androidx.compose.test)
-  testImplementation(libs.androidx.runner)
-  testImplementation(libs.truth)
-  testImplementation(libs.junit)
-  testImplementation(libs.robolectric)
-  testImplementation(libs.dagger.hilt.testing)
-  androidTestImplementation(libs.androidx.junit)
-  androidTestImplementation(libs.androidx.junit.ktx)
-  androidTestImplementation(libs.androidx.espresso.core)
-  androidTestImplementation(platform(libs.androidx.compose.bom))
-  androidTestImplementation(libs.androidx.ui.test.junit4)
-  debugImplementation(libs.androidx.ui.tooling)
-  debugImplementation(libs.androidx.ui.test.manifest)
 }
