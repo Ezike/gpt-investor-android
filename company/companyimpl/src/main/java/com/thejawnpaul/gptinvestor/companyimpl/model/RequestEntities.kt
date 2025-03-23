@@ -28,14 +28,14 @@ data class CompanyInfoResponse(
 
 @JsonClass(generateAdapter = true)
 data class CompanyNews(
-  @field:Json(name = "link") val link: String,
-  @field:Json(name = "providerPublishTime") val providerPublishTime: Long,
-  @field:Json(name = "publisher") val publisher: String,
-  @field:Json(name = "relatedTickers") val relatedTickers: List<String>,
+  @field:Json(name = "link") val link: String?,
+  @field:Json(name = "providerPublishTime") val providerPublishTime: Long?,
+  @field:Json(name = "publisher") val publisher: String?,
+  @field:Json(name = "relatedTickers") val relatedTickers: List<String>?,
   @field:Json(name = "thumbnail") val thumbNail: NewsThumbNail?,
-  @field:Json(name = "title") val title: String,
-  @field:Json(name = "type") val type: String,
-  @field:Json(name = "uuid") val id: String,
+  @field:Json(name = "title") val title: String?,
+  @field:Json(name = "type") val type: String?,
+  @field:Json(name = "uuid") val id: String?,
 )
 
 @JsonClass(generateAdapter = true)

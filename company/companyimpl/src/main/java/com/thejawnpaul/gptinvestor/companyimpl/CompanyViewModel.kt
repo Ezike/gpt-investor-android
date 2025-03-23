@@ -225,8 +225,8 @@ constructor(
         close = _companyFinancials.value.info?.close ?: "",
         volume = _companyFinancials.value.info?.volume ?: "",
         marketCap = _companyFinancials.value.info?.marketCap ?: "",
-        summary = _selectedCompany.value?.company?.summary ?: "",
-        companyName = _selectedCompany.value?.company?.name ?: "",
+        summary = _selectedCompany.value.company?.summary ?: "",
+        companyName = _selectedCompany.value.company?.name ?: "",
       )
     _downloadPdf.update { it.copy(loading = true) }
     execute(
@@ -268,7 +268,7 @@ constructor(
         .onSuccess { result -> state.update { state -> onSuccess(state, result) } }
         .onFailure { error ->
           if (error is CancellationException) throw error
-          Timber.e(error.message)
+          Timber.e(error)
           state.update { it.onFailure() }
         }
     }
@@ -286,13 +286,13 @@ constructor(
         news.map { companyNews ->
           with(companyNews) {
             NewsInfo(
-              title = title,
-              id = id,
-              type = type,
-              relativeDate = TimeAgo.using(time = providerPublishTime.times(1000)),
-              publisher = publisher,
+              title = title.orEmpty(),
+              id = id.orEmpty(),
+              type = type.orEmpty(),
+              relativeDate = TimeAgo.using(time = providerPublishTime?.times(1000) ?: 0),
+              publisher = publisher.orEmpty(),
               imageUrl = thumbNail?.resolutions?.first()?.url ?: "",
-              link = link,
+              link = link.orEmpty(),
             )
           }
         },

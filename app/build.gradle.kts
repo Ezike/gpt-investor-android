@@ -20,12 +20,12 @@ android {
   localProperties.load(project.rootProject.file("local.properties").reader())
 
   namespace = "com.thejawnpaul.gptinvestor"
-  compileSdk = 34
+  compileSdk = 35
 
   defaultConfig {
     applicationId = "com.thejawnpaul.gptinvestor"
     minSdk = 24
-    targetSdk = 34
+    targetSdk = 35
     versionCode = 2
     versionName = "1.0.1"
     vectorDrawables { useSupportLibrary = true }
@@ -65,8 +65,6 @@ android {
   }
   packaging { resources { excludes += "/META-INF/{AL2.0,LGPL2.1}" } }
 }
-
-composeCompiler { enableStrongSkippingMode = true }
 
 ktfmt { googleStyle() }
 

@@ -18,11 +18,11 @@ import com.thejawnpaul.gptinvestor.companyimpl.investor.request.SaveSentimentReq
 import com.thejawnpaul.gptinvestor.companyimpl.investor.request.SentimentAnalysisRequest
 import com.thejawnpaul.gptinvestor.companyimpl.investor.request.SimilarCompanyRequest
 import com.thejawnpaul.gptinvestor.companyimpl.model.SimilarCompanies
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import timber.log.Timber
+import javax.inject.Inject
 
 interface InvestorRepository {
   suspend fun getSimilarCompanies(request: SimilarCompanyRequest): SimilarCompanies
@@ -49,7 +49,7 @@ constructor(
 
   private val model =
     GenerativeModel(
-      modelName = "gemini-1.0-pro",
+      modelName = "gemini-1.5-pro-latest",
       // Retrieve API key as an environmental variable defined in a Build Configuration
       // see https://github.com/google/secrets-gradle-plugin for further instructions
       apiKey = BuildConfig.GEMINI_API_KEY,
