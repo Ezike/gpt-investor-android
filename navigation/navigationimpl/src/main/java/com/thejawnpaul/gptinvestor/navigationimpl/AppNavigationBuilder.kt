@@ -16,12 +16,12 @@ import com.thejawnpaul.gptinvestor.navigationimpl.NavEvent.Up
 import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject
 
-class AppUI
+class AppNavigationBuilder
 @Inject
 constructor(private val navState: NavState, private val pages: Set<@JvmSuppressWildcards Page>) {
 
   @Composable
-  fun Content(startRoute: String = "home", navController: NavHostController) {
+  fun build(startRoute: String = "home", navController: NavHostController) {
     val navPages = remember(pages) { pages.toImmutableList() }
     NavHost(navController = navController, startDestination = startRoute) {
       navPages.forEach { page ->
@@ -40,7 +40,7 @@ constructor(private val navState: NavState, private val pages: Set<@JvmSuppressW
       }
     }
     LaunchedEffect(navState, navController) {
-      navState.navEvents.collect { event ->
+      navState.events.collect { event ->
         when (event) {
           is ToRoute -> navController.navigate(event.route)
           Up -> navController.navigateUp()

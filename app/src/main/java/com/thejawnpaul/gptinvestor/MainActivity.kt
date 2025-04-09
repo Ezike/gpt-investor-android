@@ -8,21 +8,22 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.thejawnpaul.gptinvestor.navigationimpl.AppUI
+import com.thejawnpaul.gptinvestor.navigationimpl.AppNavigationBuilder
 import com.thejawnpaul.gptinvestor.theme.GPTInvestorTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-  @Inject lateinit var appUI: AppUI
+  @Inject
+  lateinit var navigationBuilder: AppNavigationBuilder
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
       GPTInvestorTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-          appUI.Content(navController = rememberNavController())
+          navigationBuilder.build(navController = rememberNavController())
         }
       }
     }

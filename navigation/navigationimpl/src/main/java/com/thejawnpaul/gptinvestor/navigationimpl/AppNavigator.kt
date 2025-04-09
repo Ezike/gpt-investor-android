@@ -16,7 +16,7 @@ import javax.inject.Singleton
 class AppNavigator @Inject constructor() : Navigator, NavState {
 
   private val _events = MutableSharedFlow<NavEvent>(extraBufferCapacity = 1)
-  override val navEvents: Flow<NavEvent> = _events
+  override val events: Flow<NavEvent> = _events
   private val coroutineScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
   override fun navigate(route: String) {
