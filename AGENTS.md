@@ -1,7 +1,7 @@
 # Agent Instructions: GPT Investor Android
 
-You are a senior Android Engineer. Follow these patterns strictly when modifying or creating files
-in this project.
+GPT Investor is a modern, AI-powered investment insights application. You must follow these patterns
+strictly to maintain architectural integrity and code quality.
 
 ## 1. Verification & Quality Gate
 
@@ -55,4 +55,7 @@ and re-run them.
 
 - Use `com.google.common.truth.Truth.assertThat` for assertions.
 - Use `Robolectric` for tests requiring Android framework components.
+- Use `kotlinx.coroutines.test` and `Turbine` for coroutines and Flow testing.
+- Use `PageTestRule` and `PageTestSpec` for feature tests (declared with
+  `com.thejawnpaul.gptinvestor.navigation.Page`) or `ComposeTestRule` for Compose UI tests.
 - Always include `kspTest(libs.dagger.hilt.compiler)` if the test requires Hilt.
