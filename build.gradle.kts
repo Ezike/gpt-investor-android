@@ -10,3 +10,19 @@ plugins {
   alias(libs.plugins.ksp) apply false
   alias(libs.plugins.kotlin.jvm) apply false
 }
+
+subprojects {
+  tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>().configureEach {
+    compilerOptions {
+      progressiveMode = true
+      freeCompilerArgs.addAll(
+        "-Xexplicit-backing-fields",
+        "-Xreturn-value-checker=full",
+        "-Xcontext-parameters",
+        "-Xcontext-sensitive-resolution",
+        "-Xannotation-target-all",
+        "-Xnested-type-aliases",
+      )
+    }
+  }
+}

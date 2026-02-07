@@ -7,18 +7,19 @@ import com.thejawnpaul.gptinvestor.homeimpl.model.SectorInput
 import com.thejawnpaul.gptinvestor.homeimpl.ui.state.AllSectorView
 import com.thejawnpaul.gptinvestor.homeimpl.ui.state.CompanyState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel
@@ -26,13 +27,11 @@ class HomeViewModel
 constructor(coroutineDispatcher: CoroutineDispatcher, private val homeRepository: HomeRepository) :
   ViewModel(CoroutineScope(coroutineDispatcher + SupervisorJob())) {
 
-  private val _allSector = MutableStateFlow(AllSectorView())
-  val allSector
-    get() = _allSector
+  val allSector: StateFlow<AllSectorView>
+    field = MutableStateFlow(AllSectorView())
 
-  private val _allCompanies = MutableStateFlow(CompanyState())
-  val allCompanies
-    get() = _allCompanies
+  val allCompanies: StateFlow<CompanyState>
+    field = MutableStateFlow(CompanyState())
 
   init {
     getAllSector()
@@ -40,18 +39,18 @@ constructor(coroutineDispatcher: CoroutineDispatcher, private val homeRepository
   }
 
   fun selectSector(selected: SectorInput) {
-    _allSector.update { it.copy(selected = selected) }
+    allSector.update { it.copy(selected = selected) }
     getSectorCompanies(selected)
   }
 
   fun getAllCompanies() {
-    _allCompanies.update { it.copy(loading = true, error = null) }
+    allCompanies.update { it.copy(loading = true, error = null) }
     homeRepository
       .getAllCompanies()
       .onEach(::updateCompanies)
       .catch { throwable ->
-        _allCompanies.update { it.copy(loading = false, error = "Something went wrong.") }
-        Timber.e(throwable.message)
+        allCompanies.update { it.copy(loading = false, error = "Something went wrong.") }
+        Timber.e(throwable)
       }
       .launchIn(viewModelScope)
   }
@@ -59,10 +58,10 @@ constructor(coroutineDispatcher: CoroutineDispatcher, private val homeRepository
   private fun getAllSector() {
     viewModelScope.launch {
       runCatching { homeRepository.getAllSector() }
-        .onSuccess { sectors -> _allSector.update { it.copy(sectors = sectors) } }
+        .onSuccess { sectors -> allSector.update { it.copy(sectors = sectors) } }
         .onFailure { throwable ->
           if (throwable is CancellationException) throw throwable
-          Timber.e(throwable.message)
+          Timber.e(throwable)
         }
     }
   }
@@ -78,12 +77,12 @@ constructor(coroutineDispatcher: CoroutineDispatcher, private val homeRepository
         .onSuccess(::updateCompanies)
         .onFailure { throwable ->
           if (throwable is CancellationException) throw throwable
-          Timber.e(throwable.message)
+          Timber.e(throwable)
         }
     }
   }
 
   private fun updateCompanies(result: List<CompanyData>) {
-    _allCompanies.update { view -> view.copy(loading = false, companies = result) }
+    allCompanies.update { view -> view.copy(loading = false, companies = result) }
   }
 }

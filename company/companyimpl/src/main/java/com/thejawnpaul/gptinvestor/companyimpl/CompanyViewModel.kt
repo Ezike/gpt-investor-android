@@ -24,6 +24,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -39,45 +40,35 @@ constructor(
   private val investorRepository: InvestorRepository,
 ) : ViewModel(viewModelScope = CoroutineScope(coroutineDispatcher + SupervisorJob())) {
 
-  private val _selectedCompany = MutableStateFlow(SingleCompanyView())
-  val selectedCompany
-    get() = _selectedCompany
+  val selectedCompany: StateFlow<SingleCompanyView>
+    field = MutableStateFlow(SingleCompanyView())
 
-  private val _companyFinancials = MutableStateFlow(CompanyFinancialsView())
-  val companyFinancials
-    get() = _companyFinancials
+  val companyFinancials: StateFlow<CompanyFinancialsView>
+    field = MutableStateFlow(CompanyFinancialsView())
 
-  private val _similarCompanies = MutableStateFlow(SimilarCompaniesView())
-  val similarCompanies
-    get() = _similarCompanies
+  val similarCompanies: StateFlow<SimilarCompaniesView>
+    field = MutableStateFlow(SimilarCompaniesView())
 
-  private val _companyComparison = MutableStateFlow(CompanyComparisonView())
-  val companyComparison
-    get() = _companyComparison
+  val companyComparison: StateFlow<CompanyComparisonView>
+    field = MutableStateFlow(CompanyComparisonView())
 
-  private val _companySentiment = MutableStateFlow(ViewState())
-  val companySentiment
-    get() = _companySentiment
+  val companySentiment: StateFlow<ViewState>
+    field = MutableStateFlow(ViewState())
 
-  private val _analystRating = MutableStateFlow(ViewState())
-  val analystRating
-    get() = _analystRating
+  val analystRating: StateFlow<ViewState>
+    field = MutableStateFlow(ViewState())
 
-  private val _industryRating = MutableStateFlow(ViewState())
-  val industryRating
-    get() = _industryRating
+  val industryRating: StateFlow<ViewState>
+    field = MutableStateFlow(ViewState())
 
-  private val _finalAnalysis = MutableStateFlow(ViewState())
-  val finalAnalysis
-    get() = _finalAnalysis
+  val finalAnalysis: StateFlow<ViewState>
+    field = MutableStateFlow(ViewState())
 
-  private val _downloadPdf = MutableStateFlow(ViewState())
-  val downloadPdf
-    get() = _downloadPdf
+  val downloadPdf: StateFlow<ViewState>
+    field = MutableStateFlow(ViewState())
 
-  private val _selectedTab = MutableStateFlow(0)
-  val selectedTab
-    get() = _selectedTab
+  val selectedTab: StateFlow<Int>
+    field = MutableStateFlow(0)
 
   private val companyTicker: String
     get() = savedStateHandle.get<String>("ticker").orEmpty()
@@ -97,19 +88,19 @@ constructor(
 
   private fun loadCompanyData() {
     execute(
-      state = _companyFinancials,
+      state = companyFinancials,
       action = { companyRepository.getCompanyFinancials(companyTicker) },
       onSuccess = { financials -> CompanyFinancialsView(info = financials.getInfo()) },
     )
     execute(
-      state = _selectedCompany,
+      state = selectedCompany,
       action = { companyRepository.getCompany(companyTicker) },
       onSuccess = { copy(company = it) },
     )
   }
 
   fun getSimilarCompanies() {
-    _companyFinancials.value.info?.let {
+    companyFinancials.value.info?.let {
       val request =
         SimilarCompanyRequest(
           ticker = companyTicker,
@@ -117,9 +108,9 @@ constructor(
           balanceSheet = it.balanceSheet,
           financials = it.financials,
         )
-      _similarCompanies.update { view -> view.copy(loading = true) }
+      similarCompanies.update { view -> view.copy(loading = true) }
       execute(
-        state = _similarCompanies,
+        state = similarCompanies,
         action = { investorRepository.getSimilarCompanies(request) },
         onSuccess = { companies -> copy(loading = false, result = companies) },
         onFailure = { copy(loading = false, error = "Something went wrong.") },
@@ -128,24 +119,24 @@ constructor(
   }
 
   fun resetSimilarCompanies() {
-    _similarCompanies.update { SimilarCompaniesView() }
+    similarCompanies.update { SimilarCompaniesView() }
     resetCompanyComparison()
     resetGenerativeAIViews()
   }
 
   fun compareCompanies(ticker: String) {
-    _companyFinancials.value.info?.let {
+    companyFinancials.value.info?.let {
       val request =
         CompareCompaniesRequest(
           currentCompany = it,
           otherCompanyTicker = ticker,
           currentCompanyTicker = companyTicker,
         )
-      _companyComparison.update { view ->
+      companyComparison.update { view ->
         view.copy(loading = true, selectedCompany = ticker, result = null)
       }
       execute(
-        state = _companyComparison,
+        state = companyComparison,
         action = { investorRepository.compareCompany(request) },
         onSuccess = { result -> copy(loading = false, result = result) },
         onFailure = { copy(loading = false, error = "Something went wrong.") },
@@ -154,11 +145,11 @@ constructor(
   }
 
   fun getSentiment() {
-    _companyFinancials.value.info?.let {
+    companyFinancials.value.info?.let {
       val request = SentimentAnalysisRequest(ticker = companyTicker, news = it.news)
-      _companySentiment.update { view -> view.copy(loading = true) }
+      companySentiment.update { view -> view.copy(loading = true) }
       execute(
-        state = _companySentiment,
+        state = companySentiment,
         action = { investorRepository.getSentimentAnalysis(request) },
         onSuccess = { result -> copy(loading = false, result = result) },
         onFailure = { copy(loading = false, error = "Something went wrong.") },
@@ -167,9 +158,9 @@ constructor(
   }
 
   fun getAnalystRating() {
-    _analystRating.update { it.copy(loading = true) }
+    analystRating.update { it.copy(loading = true) }
     execute(
-      state = _analystRating,
+      state = analystRating,
       action = { investorRepository.getAnalystRating(companyTicker) },
       onSuccess = { result -> copy(loading = false, result = result) },
       onFailure = { copy(loading = false, error = "Something went wrong.") },
@@ -177,9 +168,9 @@ constructor(
   }
 
   fun getIndustryRating() {
-    _industryRating.update { it.copy(loading = true) }
+    industryRating.update { it.copy(loading = true) }
     execute(
-      state = _industryRating,
+      state = industryRating,
       action = {
         investorRepository.getIndustryAnalysis(
           ticker = companyTicker,
@@ -193,17 +184,17 @@ constructor(
   }
 
   fun getFinalRating() {
-    _finalAnalysis.update { it.copy(loading = true) }
+    finalAnalysis.update { it.copy(loading = true) }
     val request =
       FinalAnalysisRequest(
         ticker = companyTicker,
-        comparison = _companyComparison.value.result,
-        sentiment = _companySentiment.value.result,
+        comparison = companyComparison.value.result,
+        sentiment = companySentiment.value.result,
         analystRating = "",
         industryRating = "",
       )
     execute(
-      state = _finalAnalysis,
+      state = finalAnalysis,
       action = { investorRepository.getFinalAnalysis(request) },
       onSuccess = { result -> copy(loading = false, result = result) },
       onFailure = { copy(loading = false, error = "Something went wrong.") },
@@ -213,24 +204,24 @@ constructor(
   fun downloadPdf() {
     val request =
       GetPdfRequest(
-        finalRating = _finalAnalysis.value.result ?: "",
-        similarCompanies = _similarCompanies.value.result?.codeText ?: "",
-        sentiment = _companySentiment.value.result ?: "",
-        comparison = _companyComparison.value.result ?: "",
-        analystRating = _analystRating.value.result ?: "",
-        industryRating = _industryRating.value.result ?: "",
-        open = _companyFinancials.value.info?.open ?: "",
-        high = _companyFinancials.value.info?.high ?: "",
-        low = _companyFinancials.value.info?.low ?: "",
-        close = _companyFinancials.value.info?.close ?: "",
-        volume = _companyFinancials.value.info?.volume ?: "",
-        marketCap = _companyFinancials.value.info?.marketCap ?: "",
-        summary = _selectedCompany.value.company?.summary ?: "",
-        companyName = _selectedCompany.value.company?.name ?: "",
+        finalRating = finalAnalysis.value.result ?: "",
+        similarCompanies = similarCompanies.value.result?.codeText ?: "",
+        sentiment = companySentiment.value.result ?: "",
+        comparison = companyComparison.value.result ?: "",
+        analystRating = analystRating.value.result ?: "",
+        industryRating = industryRating.value.result ?: "",
+        open = companyFinancials.value.info?.open ?: "",
+        high = companyFinancials.value.info?.high ?: "",
+        low = companyFinancials.value.info?.low ?: "",
+        close = companyFinancials.value.info?.close ?: "",
+        volume = companyFinancials.value.info?.volume ?: "",
+        marketCap = companyFinancials.value.info?.marketCap ?: "",
+        summary = selectedCompany.value.company?.summary ?: "",
+        companyName = selectedCompany.value.company?.name ?: "",
       )
-    _downloadPdf.update { it.copy(loading = true) }
+    downloadPdf.update { it.copy(loading = true) }
     execute(
-      state = _downloadPdf,
+      state = downloadPdf,
       action = { investorRepository.downloadAnalysisPdf(request) },
       onSuccess = { url -> copy(loading = false, result = url) },
       onFailure = { copy(loading = false, error = "Something went wrong.") },
@@ -238,23 +229,19 @@ constructor(
   }
 
   fun selectTab(tabIndex: Int) {
-    _selectedTab.update { tabIndex }
+    selectedTab.update { tabIndex }
   }
 
   private fun resetCompanyComparison() {
-    _companyComparison.update { CompanyComparisonView() }
+    companyComparison.update { CompanyComparisonView() }
   }
 
   private fun resetGenerativeAIViews() {
-    _companySentiment.update { ViewState() }
-
-    _analystRating.update { ViewState() }
-
-    _industryRating.update { ViewState() }
-
-    _finalAnalysis.update { ViewState() }
-
-    _downloadPdf.update { ViewState() }
+    companySentiment.update { ViewState() }
+    analystRating.update { ViewState() }
+    industryRating.update { ViewState() }
+    finalAnalysis.update { ViewState() }
+    downloadPdf.update { ViewState() }
   }
 
   private fun <T, R> execute(
