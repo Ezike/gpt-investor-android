@@ -2,8 +2,6 @@ import java.util.Properties
 
 plugins {
   alias(libs.plugins.android.library)
-  alias(libs.plugins.kotlin.android)
-  alias(libs.plugins.hiltAndroid)
   alias(libs.plugins.ksp)
 }
 
@@ -11,8 +9,8 @@ android {
   val localProperties = Properties()
   localProperties.load(project.rootProject.file("local.properties").reader())
   namespace = "com.thejawnpaul.gptinvestor.remote"
-  compileSdk = 34
-  defaultConfig.minSdk = 24
+  compileSdk = libs.versions.compileSdk.get().toInt()
+  defaultConfig.minSdk = libs.versions.minSdk.get().toInt()
   buildTypes {
     release {
       val baseUrl: String = localProperties.getProperty("BASE_URL") ?: ""
@@ -31,8 +29,7 @@ android {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
   }
-  kotlinOptions { jvmTarget = "17" }
-  buildFeatures { buildConfig = true }
+  buildFeatures.buildConfig = true
 }
 
 dependencies {

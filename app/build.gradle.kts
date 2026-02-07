@@ -1,8 +1,8 @@
+import com.android.build.api.dsl.ApplicationExtension
 import java.util.Properties
 
 plugins {
   alias(libs.plugins.androidApplication)
-  alias(libs.plugins.kotlin.android)
   alias(libs.plugins.compose.compiler)
   alias(libs.plugins.ksp)
   alias(libs.plugins.hiltAndroid)
@@ -15,17 +15,13 @@ val keystoreProperties = Properties()
 
 keystoreProperties.load(project.rootProject.file("keystore.properties").reader())
 
-android {
-  val localProperties = Properties()
-  localProperties.load(project.rootProject.file("local.properties").reader())
-
+configure<ApplicationExtension> {
   namespace = "com.thejawnpaul.gptinvestor"
-  compileSdk = 35
-
+  compileSdk = libs.versions.compileSdk.get().toInt()
   defaultConfig {
     applicationId = "com.thejawnpaul.gptinvestor"
-    minSdk = 24
-    targetSdk = 35
+    minSdk = libs.versions.minSdk.get().toInt()
+    targetSdk = libs.versions.targetSdk.get().toInt()
     versionCode = 2
     versionName = "1.0.1"
     vectorDrawables { useSupportLibrary = true }
@@ -39,14 +35,12 @@ android {
       storePassword = keystoreProperties.getProperty("KEY_STORE_PASSWORD") ?: ""
     }
   }
-
   buildTypes {
     release {
       signingConfig = signingConfigs.getByName("release")
       isMinifyEnabled = true
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
-
     debug {
       isShrinkResources = false
       isMinifyEnabled = false
@@ -58,7 +52,6 @@ android {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
   }
-  kotlinOptions { jvmTarget = "17" }
   buildFeatures {
     compose = true
     buildConfig = true

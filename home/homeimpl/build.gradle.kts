@@ -1,21 +1,21 @@
+import com.android.build.api.dsl.LibraryExtension
+
 plugins {
   alias(libs.plugins.android.library)
-  alias(libs.plugins.kotlin.android)
   alias(libs.plugins.compose.compiler)
   alias(libs.plugins.ksp)
   alias(libs.plugins.hiltAndroid)
 }
 
-android {
+configure<LibraryExtension> {
   namespace = "com.thejawnpaul.gptinvestor.homeimpl"
-  compileSdk = 34
-  defaultConfig.minSdk = 24
+  compileSdk = libs.versions.compileSdk.get().toInt()
+  defaultConfig.minSdk = libs.versions.minSdk.get().toInt()
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
   }
   testOptions.unitTests.isIncludeAndroidResources = true
-  kotlinOptions { jvmTarget = "17" }
 }
 
 dependencies {
@@ -25,6 +25,7 @@ dependencies {
   implementation(platform(libs.androidx.compose.bom))
   implementation(libs.androidx.ui.tooling.preview)
   implementation(libs.androidx.material3)
+  implementation(libs.androidx.material.icons)
   implementation(libs.androidx.hilt.navigation)
   implementation(libs.timber)
   implementation(libs.retrofit)

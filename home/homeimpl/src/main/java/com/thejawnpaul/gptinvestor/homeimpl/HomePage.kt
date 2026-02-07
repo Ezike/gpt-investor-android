@@ -1,6 +1,6 @@
 package com.thejawnpaul.gptinvestor.homeimpl
 
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.thejawnpaul.gptinvestor.homeimpl.ui.HomeScreen
 import com.thejawnpaul.gptinvestor.navigation.Navigator
 import com.thejawnpaul.gptinvestor.navigation.page

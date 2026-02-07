@@ -1,17 +1,17 @@
+import com.android.build.api.dsl.LibraryExtension
 import java.util.Properties
 
 plugins {
   alias(libs.plugins.android.library)
-  alias(libs.plugins.kotlin.android)
   alias(libs.plugins.compose.compiler)
   alias(libs.plugins.ksp)
   alias(libs.plugins.hiltAndroid)
 }
 
-android {
+configure<LibraryExtension> {
   namespace = "com.thejawnpaul.gptinvestor.companyimpl"
-  compileSdk = 34
-  defaultConfig.minSdk = 24
+  compileSdk = libs.versions.compileSdk.get().toInt()
+  defaultConfig.minSdk = libs.versions.minSdk.get().toInt()
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -28,8 +28,7 @@ android {
       buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
     }
   }
-  buildFeatures { buildConfig = true }
-  kotlinOptions { jvmTarget = "17" }
+  buildFeatures.buildConfig = true
 }
 
 dependencies {
@@ -40,6 +39,7 @@ dependencies {
   implementation(libs.richtext.compose)
   implementation(libs.richtext.commonmark)
   implementation(libs.androidx.material3)
+  implementation(libs.androidx.material.icons)
   implementation(libs.androidx.hilt.navigation)
   implementation(libs.timber)
   implementation(libs.timeAgo)
