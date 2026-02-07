@@ -59,3 +59,8 @@ and re-run them.
 - Use `PageTestRule` and `PageTestSpec` for feature tests (declared with
   `com.thejawnpaul.gptinvestor.navigation.Page`) or `ComposeTestRule` for Compose UI tests.
 - Always include `kspTest(libs.dagger.hilt.compiler)` if the test requires Hilt.
+
+## 7. README
+
+- If the changes modify the project configuration (Gradle, AGP, Kotlin, etc.) update the README to
+  reflect the current configuration.
