@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -57,10 +57,10 @@ fun CompanyDetailScreen(
             onClick = {
               onNavigationBtnClick()
               viewModel.resetSimilarCompanies()
-            }
+            },
           ) {
             Icon(
-              imageVector = Icons.Filled.ArrowBack,
+              imageVector = Icons.AutoMirrored.Filled.ArrowBack,
               contentDescription = stringResource(id = R.string.back),
             )
           }
@@ -81,9 +81,10 @@ fun CompanyDetailScreen(
     val titles = listOf("Data", "News", "AI")
     Box(
       modifier =
-        Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+        Modifier
+          .nestedScroll(scrollBehavior.nestedScrollConnection)
           .padding(innerPadding)
-          .fillMaxSize()
+          .fillMaxSize(),
     ) {
       // TODO(): fix scroll issue
       Column(modifier = Modifier.padding(horizontal = 0.dp)) {

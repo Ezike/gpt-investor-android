@@ -16,14 +16,16 @@ object DatabaseModule {
   @Provides
   fun provideDataBase(@ApplicationContext context: Context): GPTInvestorDatabase =
     Room.databaseBuilder(
-        context.applicationContext,
-        GPTInvestorDatabase::class.java,
-        GPTInvestorDatabase.DB_NAME,
-      )
-      .fallbackToDestructiveMigration()
+      context.applicationContext,
+      GPTInvestorDatabase::class.java,
+      GPTInvestorDatabase.DB_NAME,
+    )
+      .fallbackToDestructiveMigration(false)
       .build()
 
-  @Provides fun providesCompanyDao(db: GPTInvestorDatabase) = db.companyDao()
+  @Provides
+  fun providesCompanyDao(db: GPTInvestorDatabase) = db.companyDao()
 
-  @Provides fun providesHomeDao(db: GPTInvestorDatabase) = db.homeDao()
+  @Provides
+  fun providesHomeDao(db: GPTInvestorDatabase) = db.homeDao()
 }

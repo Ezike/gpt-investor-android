@@ -114,7 +114,7 @@ constructor(
         otherTicker = request.otherCompanyTicker,
         geminiText = response,
       )
-    investorService.saveComparison(saveRequest)
+    val _ = investorService.saveComparison(saveRequest)
     return response
   }
 
@@ -136,7 +136,7 @@ constructor(
     val prompt = systemPrompt + additionalPrompt
     val sentiment = model.generateContent(prompt = prompt).text ?: return null
     val saveRequest = SaveSentimentRequest(ticker = request.ticker, sentiment = sentiment)
-    investorService.saveSentiment(saveRequest)
+    val _ = investorService.saveSentiment(saveRequest)
     return sentiment
   }
 
@@ -159,7 +159,7 @@ constructor(
     val prompt = systemPrompt + additionalPrompt
     val rating = model.generateContent(prompt = prompt).text ?: return null
     val request = IndustryRatingRequest(industry = industry, sector = sector, rating = rating)
-    investorService.saveIndustryRating(request)
+    val _ = investorService.saveIndustryRating(request)
     return rating
   }
 

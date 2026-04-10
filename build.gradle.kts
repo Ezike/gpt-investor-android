@@ -21,7 +21,7 @@ subprojects {
         "-Xcontext-parameters",
         "-Xcontext-sensitive-resolution",
         "-Xannotation-target-all",
-        "-Xnested-type-aliases",
+        "-Xname-based-destructuring=complete",
       )
     }
   }
